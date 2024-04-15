@@ -1,0 +1,6 @@
+const CartPage = () => {
+  return (
+    <>
+    </>
+  )
+}
