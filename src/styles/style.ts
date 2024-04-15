@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Content = styled.div`
-  background: #f3f3f3;
+  background:${props => props.theme.off_white};
   display: flex;
   justify-items: center;
   flex-direction: column;

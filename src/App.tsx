@@ -3,8 +3,10 @@ import GlobalStyle from "./styles/global";
 import { Home } from "./pages/home";
 import { GiftsPage } from "./pages/gifts";
 import { Location } from "./pages/location";
-import Root from "./components/Alert";
+import Root from "./components/BaseKit";
 import { TipsPage } from "./pages/tips";
+import { ThemeProvider } from "styled-components";
+import { Themes } from "./styles/palette";
 
 const router = createBrowserRouter([
   {
@@ -32,8 +34,10 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div>
-      <RouterProvider router={router} />
-      <GlobalStyle />
+      <ThemeProvider theme={Themes}>
+        <GlobalStyle />
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </div>
   );
 }
