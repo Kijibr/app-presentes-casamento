@@ -4,11 +4,13 @@ import styled from "styled-components"
 
 const Container = styled.div`
   display: flex; 
-  position: relative;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  flex-direction: column;
 
+  background-color: red;
   .back_icon_wrapper {
+    position: relative;
+    height: 100%;
     position: fixed;
     top: 8px;
     left: 14px;
@@ -38,7 +40,7 @@ export default function Root() {
   const navigation = useNavigate();
 
   return (
-    <Container>
+    <Container id="base-div">
       <div
         className="back_icon_wrapper"
         onClick={() => returnToHome(navigation)}

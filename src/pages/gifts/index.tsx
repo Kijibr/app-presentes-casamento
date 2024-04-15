@@ -1,4 +1,4 @@
-import { Content, GiftBox, SearchBar, WrapperItems } from "./styles";
+import { Content, GiftBox, WrapperItems } from "./styles";
 import muayThai from "../../assets/muay-thai.png";
 import spotify from "../../assets/spotify.png";
 import viagem from "../../assets/mundo.png";
@@ -7,12 +7,16 @@ import jantar from "../../assets/jantar-romantico.png";
 import spa from "../../assets/spa.png";
 import academia from "../../assets/academia.png";
 import chale from "../../assets/chale.png";
+import { NavigateFunction, useNavigate } from "react-router-dom";
+import { GiftType, usePaymentContext } from "../../context/payment";
 
-const itemList = [
+const paymentPath = "/payment";
+
+const itemList: GiftType[] = [
   {
     id: 0,
     name: "3 MESES DE MUAY-THAI PARA O NOIVO",
-    image: muayThai
+    image: muayThai,
   },
   {
     id: 1,
@@ -54,9 +58,18 @@ const itemList = [
     name: "RESERVA PARA 5 DIAS EM CHALÉ TERESÓPOLIS.",
     image: chale
   },
-]
+];
+
 
 export const GiftsPage = () => {
+  const navigate = useNavigate();
+
+  const { payGift } = usePaymentContext();
+  const redirectToPayment = (navigate: NavigateFunction, item: GiftType) => {
+    payGift(item);
+
+    navigate(paymentPath);
+  };
 
   return (
     <Content>
@@ -66,8 +79,7 @@ export const GiftsPage = () => {
             <GiftBox>
               <img src={item.image} alt="" />
               {item.name}
-
-              <span>Presentear</span>
+              <span onClick={() => redirectToPayment(navigate, item)}>Presentear</span>
             </GiftBox>
           )
         })}
