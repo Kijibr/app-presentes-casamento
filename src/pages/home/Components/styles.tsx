@@ -59,7 +59,6 @@ const OptionsWrapper = styled.div`
   justify-content: space-between;
   
   align-items: center;
-  position: relative;
   
   margin-top: 24px;
   padding: 24px;
