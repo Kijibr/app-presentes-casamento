@@ -3,31 +3,31 @@ import { GiftType } from "../../../context/payment";
 
 
 const GiftContent = styled.div`
-  /* background: ${props => props.theme.gold}; */
+  background: ${props => props.theme.gold};
   
   display: flex;
   flex-direction: column;
   align-items: center;
   
-  width: 50%;
+  width: 100%;
   max-height: 100%;
 
-  /* padding-top: 16px; */
   gap: 8px;
 
   overflow: hidden;
 
   img{
-    padding-top: 24px;
-    width: 400px;
-    height: 360px;
+    margin-top: 24px;
+    padding: 12px;
+    width: 36%;
     object-fit: contain;
+    border: 2px #333 solid;
+    border-radius: 8px;
   }
 
   span{
     width: 360px;
     text-align: center;
-    text-decoration: underline;
 
     font-size: 24px;
     font-family: 'Asap';
@@ -37,19 +37,12 @@ const GiftContent = styled.div`
 `;
 
 
-export const Details: React.FC<GiftType> = (props) => {
+export const Details: React.FC<GiftType> = ({ id, image, name, payer }) => {
 
   return (
     <GiftContent>
-      {/* {Object.entries(props) && (
-        <> */}
-          <img src={props.image} />
-          <span>Agradeçemos imensamente pelo presente de {props.name},
-          que Deus venha te abençoar inúmeras vezes mais sempre!!!</span>
-          <span>{props.payer}</span>
-        {/* </>
-      ) */}
-      {/* } */}
+      <img src={image} alt={name} />
+      <span>{payer}</span>
     </GiftContent >
   );
 }

@@ -4,20 +4,22 @@ import { Details } from "./Components/giftDetails";
 
 const Container = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
   position: fixed;
   top: 50%; 
   left: 50%; 
   transform: translate(-50%, -50%); 
 
-  width: 72vw;
+  width: 36vw;
   height: 72vh;
 
+  align-items: center;
+  
   background: ${props => props.theme.green};
   border: 1px gray solid;
-
   border-radius: 8px;
+
 
   .payer{
     display: flex;

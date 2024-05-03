@@ -4,6 +4,7 @@ const Content = styled.div`
   background:${props => props.theme.off_white};
   display: flex;
   justify-items: center;
+  align-items: center;
   flex-direction: column;
   
   max-width: 100vw;

@@ -48,9 +48,9 @@ export function Home() {
       <Header className="logo" />
       <Subtitle>Selecione uma opção abaixo</Subtitle>
       <OptionsWrapper>
-        {links.map((item) => {
+        {links.map((item, index) => {
           return (
-            <Options onClick={() => navigate(item.path)}>
+            <Options key={index} onClick={() => navigate(item.path)}>
               <img src={item.icon} alt={item.autor} />
               <span>
                 {item.name}

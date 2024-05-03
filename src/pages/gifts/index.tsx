@@ -7,10 +7,10 @@ import jantar from "../../assets/jantar-romantico.png";
 import spa from "../../assets/spa.png";
 import academia from "../../assets/academia.png";
 import chale from "../../assets/chale.png";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { GiftType, usePaymentContext } from "../../context/payment";
 
-const paymentPath = "/payment";
+const paymentPath = "/gifts/payment";
 
 const itemList: GiftType[] = [
   {
@@ -67,7 +67,6 @@ export const GiftsPage = () => {
   const { payGift } = usePaymentContext();
   const redirectToPayment = (navigate: NavigateFunction, item: GiftType) => {
     payGift(item);
-
     navigate(paymentPath);
   };
 
@@ -76,9 +75,11 @@ export const GiftsPage = () => {
       <WrapperItems>
         {itemList.map(item => {
           return (
-            <GiftBox>
+            <GiftBox key={item.id}>
               <img src={item.image} alt="" />
-              {item.name}
+              <p>
+                {item.name}
+              </p>
               <span onClick={() => redirectToPayment(navigate, item)}>Presentear</span>
             </GiftBox>
           )

@@ -7,8 +7,9 @@ export default createGlobalStyle`
     padding: 0;
     max-width: 100vw;
     min-height: 100vh;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 62.5%;
   } 
-
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
