@@ -3,7 +3,8 @@ const Themes = {
   light_green: "#228B22",
   gold: "#e0ae42",
   white: "#fff",
-  off_white: "#f3f3f3"
+  off_white: "#f3f3f3",
+  gray: "#909090"
 } as const;
 
 export default Themes;

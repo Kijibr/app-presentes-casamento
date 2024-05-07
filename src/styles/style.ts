@@ -4,11 +4,12 @@ const Content = styled.div`
   background:${props => props.theme.off_white};
   display: flex;
   justify-items: center;
-  align-items: center;
   flex-direction: column;
   
-  max-width: 100vw;
-  min-height: 100vh;
+  width: 100%;
+  height: 100%;
+  max-width: 100dvw;
+  max-height: 100dvh;
 `;
 
 export { Content };

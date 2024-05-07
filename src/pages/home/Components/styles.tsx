@@ -4,7 +4,7 @@ import logo from '../../../assets/logo_nossa.png'
 
 const Header = styled.div`
   display: flex;
-  width: 100vw;
+  width: 100%;
   height: 60vh;
 
   justify-content: center;
@@ -55,9 +55,9 @@ const OptionsWrapper = styled.div`
   display: flex;
 
   flex-direction: row;
-  
+  max-width: 100dvw;
   justify-content: space-between;
-  
+  overflow: hidden;
   align-items: center;
   
   margin-top: 24px;
