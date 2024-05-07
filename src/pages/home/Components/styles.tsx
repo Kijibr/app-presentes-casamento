@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import logo from '../../../assets/logo_nossa.png'
+import logo from 'src/assets/logo_nossa.png'
 
 const Header = styled.div`
   display: flex;
