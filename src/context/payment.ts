@@ -2,7 +2,7 @@ import { createContext, useContext } from "react";
 
 export type GiftType = {
   id: number,
-  valueToSend: string,
+  valueToSend?: string,
   name?: string,
   image?: string,
   payer?: string
