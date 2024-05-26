@@ -2,7 +2,7 @@ import { createContext, useContext } from "react";
 
 export type GiftType = {
   id: number,
-  valueToSend?: number,
+  valueToSend: string,
   name?: string,
   image?: string,
   payer?: string
@@ -17,7 +17,7 @@ interface paymentProps {
 const PaymentContext = createContext<paymentProps>({
   gift: {
     id: 0,
-    valueToSend: 0.0,
+    valueToSend: "0",
     payer: ""
   },
   payGift: (param: GiftType) => { },

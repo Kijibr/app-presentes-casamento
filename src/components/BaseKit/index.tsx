@@ -1,16 +1,15 @@
 import { NavigateFunction, Outlet, useNavigate } from "react-router-dom"
 import { FiHome } from "react-icons/fi"
 import styled from "styled-components"
+import { usePaymentContext } from "src/context/payment";
 
 const Container = styled.div`
   display: flex; 
-  width: 100vw;
+  max-width: 100dvw;
+  max-height: 100dvh;
   flex-direction: column;
 
-  background-color: red;
   .back_icon_wrapper {
-    position: relative;
-    height: 100%;
     position: fixed;
     top: 8px;
     left: 14px;
@@ -36,7 +35,7 @@ const Container = styled.div`
 const returnToHome = (navigation: NavigateFunction): void => navigation("/");
 
 export default function Root() {
-
+  const { clearGift } = usePaymentContext();
   const navigation = useNavigate();
 
   return (
@@ -48,6 +47,7 @@ export default function Root() {
         <FiHome
           size={30}
           className="back_icon"
+          onClick={clearGift}
         />
       </div>
       <Outlet />

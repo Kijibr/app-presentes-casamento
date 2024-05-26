@@ -1,13 +1,15 @@
 import styled from "styled-components";
 import { GiftType } from "../../../context/payment";
+import QRCode from "react-qr-code";
 
 
 const GiftContent = styled.div`
-  background: ${props => props.theme.gold};
+  background: ${props => props.theme};
   
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   
   width: 100%;
   max-height: 100%;
@@ -16,33 +18,40 @@ const GiftContent = styled.div`
 
   overflow: hidden;
 
-  img{
+  .qrcode{
     margin-top: 24px;
     padding: 12px;
-    width: 36%;
+    width: 56%;
     object-fit: contain;
-    border: 2px #333 solid;
+    border: 1px #999 solid;
     border-radius: 8px;
   }
 
   span{
+    padding: 12px;
+    margin-top: 8%;
     width: 360px;
     text-align: center;
 
     font-size: 24px;
-    font-family: 'Asap';
+    
+    font-family: 'Gill Sans', sans-serif;
   }
-
-  border-right: 2px black dotted;
 `;
 
+const qrValue: string = import.meta.env.VITE_QR_CODE;
 
-export const Details: React.FC<GiftType> = ({ id, image, name, payer }) => {
+export const Details: React.FC<GiftType> = ({ id, image, name, valueToSend }) => {
 
   return (
     <GiftContent>
-      <img src={image} alt={name} />
-      <span>{payer}</span>
+      <span>{name}</span>
+      <QRCode className="qrcode" value={qrValue} />
+      {/* {!valueToSend ? (
+        <img src={image} alt={name} />
+      ) : ( */}
+      {/* )}
+      <span>{valueToSend}</span> */}
     </GiftContent >
   );
 }

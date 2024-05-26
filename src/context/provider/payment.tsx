@@ -7,7 +7,7 @@ interface ProviderProps {
 
 const baseGiftState: GiftType = {
   id: 0,
-  valueToSend: 0.0,
+  valueToSend: "0",
   payer: ""
 }
 
@@ -17,10 +17,12 @@ export const PaymentProvider: React.FC<ProviderProps> = ({ children }) => {
 
   const setGiftToPay = (giftToPay: GiftType) => {
     setGift(giftToPay);
+    sessionStorage.setItem('itemToPay', JSON.stringify(giftToPay));
   }
 
   const unsetGift = () => {
     setGift(baseGiftState);
+    sessionStorage.removeItem('itemToPay');
   };
 
   return (
