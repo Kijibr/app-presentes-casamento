@@ -15,9 +15,9 @@ const Container = styled.div`
     left: 14px;
     z-index: 9999;
 
-    width: 30px;
-    height: 30px;
-    padding: 10px;
+    width: 48px;
+    height: 48px;
+    padding: 8px 10px;
     
     background-color: ${props => props.theme.white};
     border-radius: 50%;
