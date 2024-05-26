@@ -17,46 +17,55 @@ const itemList: GiftType[] = [
     id: 0,
     name: "3 MESES DE MUAY-THAI PARA O NOIVO",
     image: muayThai,
+    valueToSend: ''
   },
   {
     id: 1,
     name: "6 MESES DE SPOTIFY PARA A NOIVA",
-    image: spotify
+    image: spotify,
+    valueToSend: ''
   },
   {
     id: 2,
     name: "VIAGEM DE LUA DE MEL PARA GRAMADO - RS",
-    image: viagem
+    image: viagem,
+    valueToSend: ''
   },
   {
     id: 3,
     name: "NOTEBOOK",
-    image: notebook
+    image: notebook,
+    valueToSend: ''
   },
   {
     id: 4,
     name: "JANTAR ROMÂNTICO PARA O CASAL",
-    image: jantar
+    image: jantar,
+    valueToSend: ''
   },
   {
     id: 5,
     name: "SPA PARA A NOIVA",
-    image: spa
+    image: spa,
+    valueToSend: ''
   },
   {
     id: 6,
     name: "1 ANO DE ACADEMIA PARA O CASAL",
-    image: academia
+    image: academia,
+    valueToSend: ''
   },
   {
     id: 7,
     name: "6 MESES DE ACADEMIA PARA O CASAL",
-    image: academia
+    image: academia,
+    valueToSend: ''
   },
   {
     id: 8,
     name: "RESERVA PARA 5 DIAS EM CHALÉ TERESÓPOLIS.",
-    image: chale
+    image: chale,
+    valueToSend: ''
   },
 ];
 
