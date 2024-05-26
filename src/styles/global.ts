@@ -1,15 +1,21 @@
 import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
-
-
-  body{
+  * {
     margin: 0;
     padding: 0;
-    width: 100%;
+    box-sizing: border-box;
+  }
+
+  html, body {
     height: 100%;
-    max-width: 100dvw;
-    max-height: 100dvh;
+    width: 100%;
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+  }
+
+  body{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 62.5%;
   } 

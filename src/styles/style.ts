@@ -6,10 +6,8 @@ const Content = styled.div`
   justify-items: center;
   flex-direction: column;
   
-  width: 100%;
-  height: 100%;
-  max-width: 100dvw;
-  max-height: 100dvh;
+  width: 100vw;
+  height: 100vh;
 `;
 
 export { Content };
