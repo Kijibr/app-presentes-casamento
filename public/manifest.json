@@ -3,12 +3,12 @@
   "name": "Nosso casamento!",
   "icons": [
     {
-      "src": "pwa-icon.png",
+      "src": "/images/pwa-icon.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "pwa-icon.png",
+      "src": "/images/pwa-icon.png",
       "type": "image/png",
       "sizes": "512x512"
     }
