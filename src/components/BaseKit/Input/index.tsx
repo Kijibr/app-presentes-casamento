@@ -12,26 +12,25 @@ const Container = styled.div`
 `;
 
 const Label = styled.span`
-  margin-top: 20px;
-  margin-bottom: -12px;
-  font-size: 1.2rem;
+  margin-bottom: -24px;
+  font-size: 1.125rem;
+  align-self: flex-start;
 `;
 
 const Input = styled.input`
-  padding: 16px;
-  width: 40%;
+  padding: 8px 24px;
 
-  font-size: 1.6rem;
+  font-size: 0.875rem;
+  border: 1px solid gray;
 
-  border-radius: 16px;
+  border-radius: 4px;
 `;
-
 
 type InputProps = {
   name: string;
   label: string;
   value?: string;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
   register: UseFormRegister<any>;
 }
 

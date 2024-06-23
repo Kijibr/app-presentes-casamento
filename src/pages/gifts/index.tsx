@@ -1,14 +1,15 @@
 import { Content, GiftBox, WrapperItems } from "./styles";
-import muayThai from "../../assets/muay-thai.png";
-import spotify from "../../assets/spotify.png";
-import viagem from "../../assets/mundo.png";
-import notebook from "../../assets/notebook.png";
-import jantar from "../../assets/jantar-romantico.png";
-import spa from "../../assets/spa.png";
-import academia from "../../assets/academia.png";
-import chale from "../../assets/chale.png";
-import { Link, NavigateFunction, useNavigate } from "react-router-dom";
+import muayThai from "src/assets/muay-thai.png";
+import spotify from "src/assets/spotify.png";
+import viagem from "src/assets/mundo.png";
+import notebook from "src/assets/notebook.png";
+import jantar from "src/assets/jantar-romantico.png";
+import spa from "src/assets/spa.png";
+import academia from "src/assets/academia.png";
+import chale from "src/assets/chale.png";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { GiftType, usePaymentContext } from "../../context/payment";
+import { createPayment } from "src/api";
 
 const paymentPath = "/gifts/payment";
 
@@ -17,65 +18,67 @@ const itemList: GiftType[] = [
     id: 0,
     name: "3 MESES DE MUAY-THAI PARA O NOIVO",
     image: muayThai,
-    valueToSend: ''
+    valueToSend: '450'
   },
   {
     id: 1,
     name: "6 MESES DE SPOTIFY PARA A NOIVA",
     image: spotify,
-    valueToSend: ''
+    valueToSend: '230'
   },
   {
     id: 2,
     name: "VIAGEM DE LUA DE MEL PARA GRAMADO - RS",
     image: viagem,
-    valueToSend: ''
+    valueToSend: '6800'
   },
   {
     id: 3,
     name: "NOTEBOOK",
     image: notebook,
-    valueToSend: ''
+    valueToSend: '3400'
   },
   {
     id: 4,
     name: "JANTAR ROMÂNTICO PARA O CASAL",
     image: jantar,
-    valueToSend: ''
+    valueToSend: '450'
   },
   {
     id: 5,
     name: "SPA PARA A NOIVA",
     image: spa,
-    valueToSend: ''
+    valueToSend: '600'
   },
   {
     id: 6,
     name: "1 ANO DE ACADEMIA PARA O CASAL",
     image: academia,
-    valueToSend: ''
+    valueToSend: '2650'
   },
   {
     id: 7,
     name: "6 MESES DE ACADEMIA PARA O CASAL",
     image: academia,
-    valueToSend: ''
+    valueToSend: '1325'
   },
   {
     id: 8,
     name: "RESERVA PARA 5 DIAS EM CHALÉ TERESÓPOLIS.",
     image: chale,
-    valueToSend: ''
+    valueToSend: '3415'
   },
 ];
-
 
 export const GiftsPage = () => {
   const navigate = useNavigate();
 
-  const { payGift } = usePaymentContext();
-  const redirectToPayment = (navigate: NavigateFunction, item: GiftType) => {
-    payGift(item);
+  const { setGiftDetails } = usePaymentContext();
+
+  const redirectToPayment = async (navigate: NavigateFunction, item: GiftType) => {
+    const generatePayment = await createPayment(item.name, parseInt(item.valueToSend));
+    item.valueToSend = generatePayment.qr_code;
+    setGiftDetails(item);
     navigate(paymentPath);
   };
 

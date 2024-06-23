@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { GiftType, usePaymentContext } from "../../context/payment"
 import { Details } from "./Components/giftDetails";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { InputComponent } from "src/components/BaseKit/Input";
+import Divider from "src/components/BaseKit/Divider";
 
 const Container = styled.div`
   display: flex;
@@ -15,8 +16,10 @@ const Container = styled.div`
   transform: translate(-50%, -50%); 
 
   width: 36vw;
-  height: 56vh;
-
+  height: 64vh;
+  
+  gap: 12px;
+  
   @media (max-width: 800px) {
     width: 88vw;
   }
@@ -32,24 +35,28 @@ const Container = styled.div`
     flex-direction: column; 
     
     max-height: 100%;
+    padding: 12px;
 
     align-items: center;
     font-size: 1.5rem;
-    
-    gap: 36px;
+    gap: 16px;
   }
 `;
 
 const Button = styled.button`
   background-color: ${props => props.theme.green};
-  
+  color: ${props => props.theme.white};
   cursor: pointer;
-  
+  &:disabled {
+    cursor: not-allowed;
+    background-color: ${props => props.theme.gray};
+  }
   transition: 0.6s ease-in-out;
   &:hover{
     opacity: 88%;
   }
-  padding: 16px;
+  padding: 8px 12px;
+  border: 1px solid gray;
   border-radius: 16px;
 
   p{
@@ -57,75 +64,50 @@ const Button = styled.button`
     text-align: center;
   }
 
-  width: 40%;
+  width: 60%;
 `;
 
 export const CheckoutPage = () => {
   const { gift, payGift } = usePaymentContext();
+  const { register, watch } = useForm<GiftType>();
+  const payer = watch('payer') ?? '';
 
-  const { register, getValues, watch, setValue } = useForm<GiftType>();
+  const [details, setDetails] = useState<GiftType>(gift);
+  const [isPayed, setIsPayed] = useState<boolean>(false);
 
   const giftFromStorage = sessionStorage.getItem('itemToPay');
-  const [details, setDetails] = useState<GiftType>(gift);
 
   useEffect(() => {
     if (giftFromStorage) {
       const payload = JSON.parse(giftFromStorage) as GiftType;
       setDetails(payload);
     }
-  }, [giftFromStorage]);
-
-  const valueToSend = watch('valueToSend') ?? '';
+  }, []);
 
   const handleButtonClick = () => {
-    const giftValue = getValues().valueToSend;
-    const giftToPay = {
-      ...gift,
-      valueToSend: giftValue
-    }
-    payGift(giftToPay);
+    payGift(payer);
+    setIsPayed(true);
   };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    const numericValue = value.replace(/[^\d]/g, '');
-
-    const floatValue = parseFloat(numericValue) / 100;
-
-    const result = (isNaN(floatValue) ? '' : floatValue.toFixed(2));
-    setValue('valueToSend', result);
-  }
-
-  function formatValue(value: string) {
-    if (!value) return '0';
-
-    const options = {
-      style: 'currency',
-      currency: 'BRL',
-    };
-
-    const formatter = new Intl.NumberFormat('pt-BR', options);
-    return formatter.format(Number(value))
-  }
 
   return (
     <Container>
       <Details {...details} />
-      {/* <div className="payer">
+      <Divider />
+      <div className="payer">
         <InputComponent
-          name="valueToSend"
-          label="Insira o valor no qual deseja colaborar"
+          name="payer"
+          label="Insira o seu nome"
           register={register}
-          handleChange={handleChange}
-          value={formatValue(valueToSend)}
+          value={payer}
         />
         <Button
           onClick={handleButtonClick}
           type="submit"
+          disabled={isPayed}
         >
           <p>Pagar</p>
         </Button>
-      </div> */}
+      </div>
     </Container>
   )
 }

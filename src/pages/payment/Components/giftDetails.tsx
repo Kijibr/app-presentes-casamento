@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import { GiftType } from "../../../context/payment";
 import QRCode from "react-qr-code";
-
+import { useTransition } from "react";
+import { IoReloadOutline } from "react-icons/io5";
 
 const GiftContent = styled.div`
-  background: ${props => props.theme};
+  background: ${props => props.theme.white};
   
   display: flex;
   flex-direction: column;
@@ -12,46 +13,105 @@ const GiftContent = styled.div`
   justify-content: center;
   
   width: 100%;
-  max-height: 100%;
-
-  gap: 8px;
+  max-height: 100vh;
+  padding-top: -20%;
+  
+  gap: 2%;
 
   overflow: hidden;
 
-  .qrcode{
-    margin-top: 24px;
-    padding: 12px;
-    width: 56%;
-    object-fit: contain;
-    border: 1px #999 solid;
-    border-radius: 8px;
-  }
+  font-family: 'Gill Sans', sans-serif;
+`;
 
-  span{
-    padding: 12px;
-    margin-top: 8%;
-    width: 360px;
-    text-align: center;
+const QrCodeWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    font-size: 24px;
-    
-    font-family: 'Gill Sans', sans-serif;
+  margin-top: 4%;
+  
+  width: fit-content;
+  height: 72%;
+
+  border: 1px #999 solid;
+  border-radius: 8px;
+  
+  .qrcode {
+    max-width: 180px;
   }
+`;
+
+const GiftName = styled.span`
+  margin: 4% 0;
+  width: 360px;
+  text-align: center;
+
+  font-size: 18px;
+`;
+
+const CopyAndPaste = styled.span`
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 12px;
+  margin: 14px;
+  word-break: break-all;
+  
+  border: 1px solid gray;
+  border-radius: 8px;
+  background-color: ${props => props.theme.green};
+  color: ${props => props.theme.white};
+  
+  &:hover {
+    opacity: 88%;
+  }
+  width: 20vw;
+
+  transition: 0.5s ease-in-out;
+
+  text-align: center;
+  .loader {
+    font-size: 16px;
+    animation: spin 1s infinite linear;
+  }
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  };
+
 `;
 
 const qrValue: string = import.meta.env.VITE_QR_CODE;
 
-export const Details: React.FC<GiftType> = ({ id, image, name, valueToSend }) => {
+
+export const Details: React.FC<GiftType> = ({ id, image, name, payer, valueToSend }) => {
+  const [isTransition, loadTransition] = useTransition();
+
+  function addKeyInClipboard() {
+    loadTransition(() => {
+      navigator.clipboard.writeText(valueToSend);
+    })
+  }
 
   return (
-    <GiftContent>
-      <span>{name}</span>
-      <QRCode className="qrcode" value={qrValue} />
-      {/* {!valueToSend ? (
-        <img src={image} alt={name} />
-      ) : ( */}
-      {/* )}
-      <span>{valueToSend}</span> */}
+    <GiftContent className="gift-container">
+      <QrCodeWrapper>
+        <QRCode className="qrcode"  value={valueToSend} />
+        <CopyAndPaste
+          onClick={addKeyInClipboard}
+        >
+          {isTransition
+            ?
+            <IoReloadOutline className="loader" />
+            :
+            <>Copie e cole a chave pix para enviar o valor.</>
+          }
+        </CopyAndPaste>
+      </QrCodeWrapper>
+      <GiftName>{name}</GiftName>
     </GiftContent >
   );
 }

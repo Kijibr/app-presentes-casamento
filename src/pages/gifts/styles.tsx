@@ -34,6 +34,7 @@ const GiftBox = styled.div`
   
   gap: 8px;
   min-width: 360px;
+  max-width: 420px;
   height: 240px;
 
   background-color:${props => props.theme.off_white};

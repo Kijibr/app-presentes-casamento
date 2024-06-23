@@ -2,15 +2,16 @@ import { createContext, useContext } from "react";
 
 export type GiftType = {
   id: number,
-  valueToSend?: string,
-  name?: string,
+  valueToSend: string,
+  name: string,
   image?: string,
   payer?: string
 }
 
 interface paymentProps {
   gift: GiftType,
-  payGift: (param: GiftType) => void,
+  payGift: (param: string) => void,
+  setGiftDetails: (param: GiftType) => void,
   clearGift: () => void,
 }
 
@@ -18,9 +19,11 @@ const PaymentContext = createContext<paymentProps>({
   gift: {
     id: 0,
     valueToSend: "0",
+    name: "",
     payer: ""
   },
-  payGift: (param: GiftType) => { },
+  payGift: (param: string) => { },
+  setGiftDetails: (param: GiftType) => { },
   clearGift: () => { }
 });
 
