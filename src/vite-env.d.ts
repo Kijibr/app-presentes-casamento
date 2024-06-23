@@ -1,6 +1,6 @@
 interface ImportMetaEnv {
   readonly VITE_QR_CODE: string;
-  readonly API_URL: string;
+  readonly VITE_API_URL: string;
   readonly FB_API_KEY: string;
   readonly FB_STORAGE_BUCKET: string;
   readonly FB_MESSAGING_SENDER_ID: string;
