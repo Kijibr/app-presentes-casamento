@@ -1,12 +1,12 @@
 import axios from 'axios';
-
+const url = import.meta.env.VITE_API_URL || process.env.VITE_API_URL || "not found";
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
+  baseURL: url
 })
 
 export const createPayment = async (gift: string, valuePaid: number) => {
   try {
-    const request = await api.post('/create-pix-payment', {
+    const request = await api.post('/pix-payment', {
       "transaction_amount": valuePaid,
       "description": gift,
       "email": "kijicursos@gmail.com",

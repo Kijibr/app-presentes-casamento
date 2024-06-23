@@ -5,9 +5,10 @@ import { addDoc } from "firebase/firestore/lite";
 export const addNewPayer = async (payload: GiftType) => {
   try {
     const addItem = await addDoc(payersCollection, {
+      giftId: payload.id,
+      createdAt: new Date().toISOString(),
       name: payload.payer,
       gift: payload.name,
-      giftId: payload.id,
       valuePayed: parseFloat(payload.valueToSend)
     });
 
