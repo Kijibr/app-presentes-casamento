@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { GiftType } from "../../../context/payment";
 import QRCode from "react-qr-code";
 import { useTransition } from "react";
 import { IoReloadOutline } from "react-icons/io5";
+import { GiftToPay } from "src/types";
 
 const GiftContent = styled.div`
   background: ${props => props.theme.white};
@@ -13,9 +13,11 @@ const GiftContent = styled.div`
   justify-content: center;
   
   width: 100%;
-  max-height: 100vh;
+  height: 100vh;
   padding-top: -20%;
   
+  border: 1px #c8c8c8;
+  border-radius: 8px;
   gap: 2%;
 
   overflow: hidden;
@@ -35,8 +37,8 @@ const QrCodeWrapper = styled.div`
 
   border: 1px #999 solid;
   border-radius: 8px;
-  
   .qrcode {
+    padding: 4px;
     max-width: 180px;
   }
 `;
@@ -54,7 +56,7 @@ const CopyAndPaste = styled.span`
   cursor: pointer;
   padding: 12px;
   margin: 14px;
-  word-break: break-all;
+  word-break: keep-all;
   
   border: 1px solid gray;
   border-radius: 8px;
@@ -64,7 +66,7 @@ const CopyAndPaste = styled.span`
   &:hover {
     opacity: 88%;
   }
-  width: 20vw;
+  max-width: 60vw;
 
   transition: 0.5s ease-in-out;
 
@@ -84,22 +86,19 @@ const CopyAndPaste = styled.span`
 
 `;
 
-const qrValue: string = import.meta.env.VITE_QR_CODE;
-
-
-export const Details: React.FC<GiftType> = ({ id, image, name, payer, valueToSend }) => {
+export const Details: React.FC<GiftToPay> = ({ id, name, qrCode }) => {
   const [isTransition, loadTransition] = useTransition();
 
   function addKeyInClipboard() {
     loadTransition(() => {
-      navigator.clipboard.writeText(valueToSend);
+      navigator.clipboard.writeText(qrCode);
     })
   }
 
   return (
     <GiftContent className="gift-container">
       <QrCodeWrapper>
-        <QRCode className="qrcode"  value={valueToSend} />
+        <QRCode className="qrcode" value={qrCode} />
         <CopyAndPaste
           onClick={addKeyInClipboard}
         >

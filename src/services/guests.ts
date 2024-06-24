@@ -10,12 +10,10 @@ export const getAllGuests = async () => {
 
 export const addNewGuest = async (name: string) => {
   try {
-    const addItem = await addDoc(guestsCollection, {
+    await addDoc(guestsCollection, {
       name,
       age: 22
     });
-
-    console.log("Document written with ID: ", addItem);
   } catch (e) {
     console.error("Error adding document: ", e);
   }

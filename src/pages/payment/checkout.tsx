@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { GiftType, usePaymentContext } from "../../context/payment"
+import { usePaymentContext } from "../../context/payment"
 import { Details } from "./Components/giftDetails";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { InputComponent } from "src/components/BaseKit/Input";
 import Divider from "src/components/BaseKit/Divider";
+import { GiftToPay, PaymentType } from "src/types";
 
 const Container = styled.div`
   display: flex;
@@ -69,17 +70,17 @@ const Button = styled.button`
 
 export const CheckoutPage = () => {
   const { gift, payGift } = usePaymentContext();
-  const { register, watch } = useForm<GiftType>();
-  const payer = watch('payer') ?? '';
+  const { register, watch } = useForm<PaymentType>();
+  const payer = watch('name') ?? '';
 
-  const [details, setDetails] = useState<GiftType>(gift);
+  const [details, setDetails] = useState<GiftToPay>(gift);
   const [isPayed, setIsPayed] = useState<boolean>(false);
 
   const giftFromStorage = sessionStorage.getItem('itemToPay');
 
   useEffect(() => {
     if (giftFromStorage) {
-      const payload = JSON.parse(giftFromStorage) as GiftType;
+      const payload = JSON.parse(giftFromStorage) as GiftToPay;
       setDetails(payload);
     }
   }, []);
@@ -95,7 +96,7 @@ export const CheckoutPage = () => {
       <Divider />
       <div className="payer">
         <InputComponent
-          name="payer"
+          name="name"
           label="Insira o seu nome"
           register={register}
           value={payer}

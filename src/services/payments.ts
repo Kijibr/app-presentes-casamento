@@ -1,18 +1,15 @@
-import { GiftType } from "src/context/payment";
 import { giftsCollection, payersCollection } from "./firebase";
 import { addDoc } from "firebase/firestore/lite";
+import { GiftType, PaymentType } from "src/types";
+import { v4 as uuidv4 } from 'uuid';
 
-export const addNewPayer = async (payload: GiftType) => {
+export const addNewPayer = async (payload: PaymentType) => {
   try {
-    const addItem = await addDoc(payersCollection, {
-      giftId: payload.id,
+    await addDoc(payersCollection, {
+      ...payload,
       createdAt: new Date().toISOString(),
-      name: payload.payer,
-      gift: payload.name,
-      valuePayed: parseFloat(payload.valueToSend)
+      value: parseFloat(payload.value.toString())
     });
-
-    console.log("Payer written with ID: ", addItem);
   } catch (e) {
     console.error("Error save new payer: ", e);
   }
@@ -20,12 +17,12 @@ export const addNewPayer = async (payload: GiftType) => {
 
 export const addGifts = async (payload: GiftType) => {
   try {
-    const addItem = await addDoc(giftsCollection, {
+    await addDoc(giftsCollection, {
       ...payload,
-      valueToSend: parseFloat(payload.valueToSend)
+      id: uuidv4(),
+      createdAt: new Date().toISOString(),
+      giftValue: parseFloat(payload.giftValue)
     });
-
-    console.log("Payer written with ID: ", addItem);
   } catch (e) {
     console.error("Error save new payer: ", e);
   }

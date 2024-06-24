@@ -8,65 +8,66 @@ import spa from "src/assets/spa.png";
 import academia from "src/assets/academia.png";
 import chale from "src/assets/chale.png";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { GiftType, usePaymentContext } from "../../context/payment";
+import { usePaymentContext } from "../../context/payment";
 import { createPayment } from "src/api";
+import { GiftToPay, GiftType } from "src/types";
 
 const paymentPath = "/gifts/payment";
 
 const itemList: GiftType[] = [
   {
-    id: 0,
+    id: "",
     name: "3 MESES DE MUAY-THAI PARA O NOIVO",
     image: muayThai,
-    valueToSend: '450'
+    giftValue: '450'
   },
   {
-    id: 1,
+    id: "",
     name: "6 MESES DE SPOTIFY PARA A NOIVA",
     image: spotify,
-    valueToSend: '230'
+    giftValue: '230'
   },
   {
-    id: 2,
+    id: "",
     name: "VIAGEM DE LUA DE MEL PARA GRAMADO - RS",
     image: viagem,
-    valueToSend: '6800'
+    giftValue: '6800'
   },
   {
-    id: 3,
+    id: "",
     name: "NOTEBOOK",
     image: notebook,
-    valueToSend: '3400'
+    giftValue: '3400'
   },
   {
-    id: 4,
+    id: "",
     name: "JANTAR ROMÂNTICO PARA O CASAL",
     image: jantar,
-    valueToSend: '450'
+    giftValue: '450'
   },
   {
-    id: 5,
+    id: "",
     name: "SPA PARA A NOIVA",
     image: spa,
-    valueToSend: '600'
+    giftValue: '600'
   },
   {
-    id: 6,
+    id: "",
     name: "1 ANO DE ACADEMIA PARA O CASAL",
     image: academia,
-    valueToSend: '2650'
+    giftValue: '2650'
   },
   {
-    id: 7,
+    id: "",
     name: "6 MESES DE ACADEMIA PARA O CASAL",
     image: academia,
-    valueToSend: '1325'
+    giftValue: '1325'
   },
   {
-    id: 8,
+    id: "",
     name: "RESERVA PARA 5 DIAS EM CHALÉ TERESÓPOLIS.",
     image: chale,
-    valueToSend: '3415'
+    giftValue: '3415'
   },
 ];
 
@@ -76,9 +77,16 @@ export const GiftsPage = () => {
   const { setGiftDetails } = usePaymentContext();
 
   const redirectToPayment = async (navigate: NavigateFunction, item: GiftType) => {
-    const generatePayment = await createPayment(item.name, parseInt(item.valueToSend));
-    item.valueToSend = generatePayment.qr_code;
-    setGiftDetails(item);
+    const generatePayment = await createPayment(item.name, parseInt(item.giftValue));
+
+    const giftToPay: GiftToPay = {
+      id: item.id,
+      giftValue: item.giftValue,
+      name: item.name,
+      qrCode: generatePayment.qr_code
+    };
+
+    setGiftDetails(giftToPay);
     navigate(paymentPath);
   };
 

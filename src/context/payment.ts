@@ -1,28 +1,19 @@
 import { createContext, useContext } from "react";
-
-export type GiftType = {
-  id: number,
-  createdAt?: string,
-  valueToSend: string,
-  name: string,
-  image?: string,
-  payer?: string
-}
+import { GiftToPay, GiftType } from "src/types";
 
 interface paymentProps {
-  gift: GiftType,
+  gift: GiftToPay,
   payGift: (param: string) => void,
-  setGiftDetails: (param: GiftType) => void,
+  setGiftDetails: (param: GiftToPay) => void,
   clearGift: () => void,
 }
 
 const PaymentContext = createContext<paymentProps>({
   gift: {
-    id: 0,
-    createdAt: "",
-    valueToSend: "0",
+    id: "",
+    qrCode: "",
+    giftValue: "0",
     name: "",
-    payer: ""
   },
   payGift: (param: string) => { },
   setGiftDetails: (param: GiftType) => { },
