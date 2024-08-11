@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import { usePaymentContext } from "../../context/payment"
 import { Details } from "./Components/giftDetails";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { InputComponent } from "src/components/BaseKit/Input";
 import Divider from "src/components/BaseKit/Divider";
-import { GiftToPay, PaymentType } from "src/types";
+import { PaymentType } from "src/types";
+import { usePaymentHook } from "./paymentsHook";
+import CheckmarkAnimation from "src/assets/checkmarkAnimation";
+import { Invoice } from "./Components/invoice";
 
 const Container = styled.div`
   display: flex;
@@ -28,7 +29,7 @@ const Container = styled.div`
   align-items: center;
   
   background: ${props => props.theme.off_white};
-  border: 1px gray solid;
+  border: 1px ${props => props.theme.light_gray} solid;
   border-radius: 8px;
 
   .payer{
@@ -45,19 +46,23 @@ const Container = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: ${props => props.theme.green};
-  color: ${props => props.theme.white};
+  background-color: ${props => props.theme.white};
+  color: ${props => props.theme.green};
   cursor: pointer;
   &:disabled {
     cursor: not-allowed;
     background-color: ${props => props.theme.gray};
   }
   transition: 0.6s ease-in-out;
+  
   &:hover{
     opacity: 88%;
+    background-color: ${props => props.theme.green};
+    color: ${props => props.theme.white};
   }
+
   padding: 8px 12px;
-  border: 1px solid gray;
+  border: 1px solid ${props => props.theme.green};
   border-radius: 16px;
 
   p{
@@ -69,46 +74,38 @@ const Button = styled.button`
 `;
 
 export const CheckoutPage = () => {
-  const { gift, payGift } = usePaymentContext();
+  const { details, isPayed, payItem } = usePaymentHook();
+
   const { register, watch } = useForm<PaymentType>();
   const payer = watch('name') ?? '';
 
-  const [details, setDetails] = useState<GiftToPay>(gift);
-  const [isPayed, setIsPayed] = useState<boolean>(false);
-
-  const giftFromStorage = sessionStorage.getItem('itemToPay');
-
-  useEffect(() => {
-    if (giftFromStorage) {
-      const payload = JSON.parse(giftFromStorage) as GiftToPay;
-      setDetails(payload);
-    }
-  }, []);
-
-  const handleButtonClick = () => {
-    payGift(payer);
-    setIsPayed(true);
-  };
-
   return (
-    <Container>
-      <Details {...details} />
-      <Divider />
-      <div className="payer">
-        <InputComponent
-          name="name"
-          label="Insira o seu nome"
-          register={register}
-          value={payer}
-        />
-        <Button
-          onClick={handleButtonClick}
-          type="submit"
-          disabled={isPayed}
-        >
-          <p>Pagar</p>
-        </Button>
-      </div>
-    </Container>
+    <>
+      {isPayed ?
+        <Invoice />
+        : (
+          <Container>
+            <>
+              <Details {...details} />
+              <Divider />
+              <div className="payer">
+                <InputComponent
+                  name="name"
+                  label="Insira o seu nome"
+                  register={register}
+                  value={payer}
+                />
+                <Button
+                  onClick={() => payItem(payer)}
+                  type="submit"
+                  disabled={isPayed}
+                >
+                  <p>Pagar</p>
+                </Button>
+              </div>
+            </>
+          </Container>
+        )}
+    </>
   )
 }

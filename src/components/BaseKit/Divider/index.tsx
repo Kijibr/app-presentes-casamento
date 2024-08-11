@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 const DividerLine = styled.p`
-  height: 2px;
+  height: 1px;
   width: 94%;
   background-color: ${(props) => props.theme.gray};
   opacity: 80%;

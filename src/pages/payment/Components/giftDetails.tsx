@@ -15,6 +15,7 @@ const GiftContent = styled.div`
   width: 100%;
   height: 100vh;
   padding-top: -20%;
+  padding-bottom: 4px;
   
   border: 1px #c8c8c8;
   border-radius: 8px;
@@ -30,15 +31,15 @@ const QrCodeWrapper = styled.div`
   flex-direction: column;
   align-items: center;
 
-  margin-top: 4%;
+  margin-top: 2%;
   
   width: fit-content;
-  height: 72%;
+  min-height: 80%;
 
-  border: 1px #999 solid;
+  border: 1px ${props => props.theme.light_gray} solid;
   border-radius: 8px;
   .qrcode {
-    padding: 4px;
+    padding: 2px;
     max-width: 180px;
   }
 `;
@@ -52,14 +53,14 @@ const GiftName = styled.span`
 `;
 
 const CopyAndPaste = styled.span`
-  font-size: 0.875rem;
+  font-size: 0.800rem;
   cursor: pointer;
-  padding: 12px;
+  padding: 8px;
   margin: 14px;
   word-break: keep-all;
   
   border: 1px solid gray;
-  border-radius: 8px;
+  border-radius: 2px;
   background-color: ${props => props.theme.green};
   color: ${props => props.theme.white};
   
@@ -97,6 +98,7 @@ export const Details: React.FC<GiftToPay> = ({ id, name, qrCode }) => {
 
   return (
     <GiftContent className="gift-container">
+      <GiftName>{name}</GiftName>
       <QrCodeWrapper>
         <QRCode className="qrcode" value={qrCode} />
         <CopyAndPaste
@@ -106,11 +108,10 @@ export const Details: React.FC<GiftToPay> = ({ id, name, qrCode }) => {
             ?
             <IoReloadOutline className="loader" />
             :
-            <>Copie e cole a chave pix para enviar o valor.</>
+            <>Copie a chave pix para enviar o valor.</>
           }
         </CopyAndPaste>
       </QrCodeWrapper>
-      <GiftName>{name}</GiftName>
     </GiftContent >
   );
 }
