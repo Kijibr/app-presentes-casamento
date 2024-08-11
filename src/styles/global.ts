@@ -1,5 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 
+export const maxWidth = `${window.screen.availHeight}px`;
+export const maxHeight = `${window.screen.availWidth}px`;
+
 export default createGlobalStyle`
   * {
     margin: 0;

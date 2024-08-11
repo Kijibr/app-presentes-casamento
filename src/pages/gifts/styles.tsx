@@ -1,7 +1,8 @@
+import { maxHeight } from "src/styles/global";
 import styled from "styled-components";
 
 const Content = styled.div`
-  background:${props => props.theme.off_white};
+  background:${props => props.theme.green};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,14 +12,12 @@ const Content = styled.div`
 `;
 
 const WrapperItems = styled.div`
-  background: #828e51;
+  background:${props => props.theme.green};
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-    
-  align-items: center;
-  position: relative;
 
+  position: relative;
   gap: 32px;
   padding: 48px 32px;
 `;
@@ -33,8 +32,8 @@ const GiftBox = styled.div`
   flex: 1;
   
   gap: 8px;
-  min-width: 360px;
-  max-width: 420px;
+  min-width: 240px;
+  max-width: 360px;
   height: 240px;
 
   background-color:${props => props.theme.off_white};

@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { PaymentContext } from "../payment";
-import { addNewPayer } from "src/services/payments";
-import { v4 as uuidv4 } from 'uuid';
-import { GiftToPay, PaymentType } from "src/types";
+import { GiftToPay } from "src/types";
+import { createPaymentAsync } from "src/api";
 
 interface ProviderProps {
   children: React.ReactNode;
 }
 
 const baseGiftState: GiftToPay = {
+  paymentId: 0,
   id: "",
   giftValue: "0.0",
   name: "",
@@ -25,20 +25,11 @@ export const PaymentProvider: React.FC<ProviderProps> = ({ children }) => {
     sessionStorage.setItem('itemToPay', JSON.stringify(gift));
   }
 
-  const setGiftToPay = (giftOwner: string) => {
-    let selectedGift: GiftToPay = gift;
-    if (giftFromStorage) {
-      selectedGift = JSON.parse(giftFromStorage) as GiftToPay;
+  const setGiftToPay = async (giftOwner: string) => {
+    if (giftFromStorage) { 
+      const selectedGift = JSON.parse(giftFromStorage) as GiftToPay;
+      await createPaymentAsync(selectedGift, giftOwner);
     }
-    const giftToPay: PaymentType = {
-      giftId: selectedGift.id,
-      giftName: selectedGift.name,
-      name: giftOwner,
-      value: selectedGift.giftValue,
-      id: uuidv4()
-    };
-
-    addNewPayer(giftToPay);
   }
 
   const unsetGift = () => {

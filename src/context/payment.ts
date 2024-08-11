@@ -10,6 +10,7 @@ interface paymentProps {
 
 const PaymentContext = createContext<paymentProps>({
   gift: {
+    paymentId: 0,
     id: "",
     qrCode: "",
     giftValue: "0",

@@ -1,20 +1,35 @@
 import axios from 'axios';
+import { GiftType } from 'src/types';
 const url = import.meta.env.VITE_API_URL || process.env.VITE_API_URL || "not found";
-const api = axios.create({
+export const api = axios.create({
   baseURL: url
 })
 
-export const createPayment = async (gift: string, valuePaid: number) => {
+export const createPaymentAsync = async (gift: GiftType, payer: string) => {
   try {
-    const request = await api.post('/pix-payment', {
-      "transaction_amount": valuePaid,
-      "description": gift,
-      "email": "kijicursos@gmail.com",
-      "identificationType": "123321",
-      "number": "21941233214"
+    const request = await api.post('/payment/pix', {
+      giftId: gift.id,
+      giftName: gift.name,
+      transaction_amount: parseInt(gift.giftValue),
+      description: gift.name,
+      email: import.meta.env.VITE_EMAIL_PAYER,
+      identificationType: "123321",
+      payerName: payer,
+      // number: "21941233214"
     });
+
     if (request.status === 200)
-      return request.data.point_of_interaction.transaction_data;
+      return request.data;
+  } catch (err) {
+    throw new Error('error in request: ' + err);
+  }
+}
+
+export const getPaymentUpdate = async (paymentId: number) => {
+  try {
+    const request = await api.get(`/payment/${paymentId}`)
+    if (request.status === 200)
+      return request.data;
   } catch (err) {
     throw new Error('error in request: ' + err);
   }

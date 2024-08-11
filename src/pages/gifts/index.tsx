@@ -1,9 +1,9 @@
 import { Content, GiftBox, WrapperItems } from "./styles";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { usePaymentContext } from "../../context/payment";
-import { createPayment } from "src/api";
+import { createPaymentAsync } from "src/api";
 import { GiftToPay, GiftType } from "src/types";
-import { getAllgifts } from "src/services/gifts";
+import { getAllgifts } from "src/api/gifts";
 import { useEffect, useState } from "react";
 
 const paymentPath = "/gifts/payment";
@@ -13,6 +13,7 @@ export const GiftsPage = () => {
   const { setGiftDetails } = usePaymentContext();
 
   const [giftsList, setGifts] = useState<GiftType[]>();
+  
   useEffect(() => {
     (async () => {
       const items = await getAllgifts();
@@ -21,10 +22,12 @@ export const GiftsPage = () => {
   }, [])
 
   const redirectToPayment = async (navigate: NavigateFunction, item: GiftType) => {
-    const generatePayment = await createPayment(item.name, parseInt(item.giftValue));
+    const currentUser = localStorage.getItem('userInfo') ?? "MockUser";
+    const generatePayment = await createPaymentAsync(item, currentUser);
 
     const giftToPay: GiftToPay = {
       id: item.id,
+      paymentId: generatePayment.id,
       giftValue: item.giftValue,
       name: item.name,
       qrCode: generatePayment.qr_code

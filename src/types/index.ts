@@ -18,6 +18,7 @@ export type PaymentType = BaseType & {
 }
 
 export type GiftToPay = {
+  paymentId: number,
   id: string,
   name: string,
   giftValue: string,
