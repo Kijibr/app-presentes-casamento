@@ -3,6 +3,7 @@ import CheckmarkAnimation from "src/assets/checkmarkAnimation"
 import Divider from "src/components/BaseKit/Divider";
 import styled, { css, keyframes } from "styled-components"
 import { ItemsPaid } from "./itemsPaid";
+import { UserInfoType } from "src/components/BaseKit";
 
 const fadeOut = keyframes`
   from {
@@ -69,6 +70,8 @@ export const Invoice = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  const userDetails = JSON.parse(localStorage.getItem("userInfo") ?? "") as UserInfoType;
+
   return (
     <InvoiceWrapper id="invoice">
       {showAnimation ? (
@@ -80,10 +83,10 @@ export const Invoice = () => {
             DE:
             <Divider />
             <PayerInfo>
-              Nome: Igor A.
+              Nome: {userDetails.name}
             </PayerInfo>
             <PayerInfo>
-              Email: kijicursis@testus.com
+              Email: {userDetails.email}
             </PayerInfo>
           </PayerDetails>
           <PayerDetails>

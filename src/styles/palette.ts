@@ -1,12 +1,20 @@
 const Themes = {
-  green: "#828e51",
-  light_green: "#228B22",
+  light_green: "#99AB7B",
+  green: "#80965A",
+  dark_green: "#5B6B40",
+
   table_green: "#4CAF50",
+
   gold: "#e0ae42",
-  white: "#fff",
+  
+  light_white: "#f3f3f3",
+  off_white: "#F8F8F8",
+  white: "#F6F6F6",
+  
   light_gray: "#ccc",
-  off_white: "#f3f3f3",
-  gray: "#909090"
+  gray: "#909090",
+
+  input_focus: "#465332",
 } as const;
 
 export default Themes;

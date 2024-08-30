@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { Header, Options, OptionsWrapper, Subtitle, Title } from "./Components/styles";
+import { Header, Options, OptionsWrapper, Subtitle } from "./Components/styles";
 import { Content } from "../../styles/style";
 import { Links, links } from "./constants";
 
 export function Home() {
   const navigate = useNavigate();
-
   return (
     <Content>
       <Header className="logo" />

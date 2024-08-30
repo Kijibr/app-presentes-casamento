@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Details } from "./Components/giftDetails";
 import { useForm } from "react-hook-form";
-import { InputComponent } from "src/components/BaseKit/Input";
 import Divider from "src/components/BaseKit/Divider";
 import { PaymentType } from "src/types";
 import { usePaymentHook } from "./paymentsHook";
@@ -87,22 +86,6 @@ export const CheckoutPage = () => {
           <Container>
             <>
               <Details {...details} />
-              <Divider />
-              <div className="payer">
-                <InputComponent
-                  name="name"
-                  label="Insira o seu nome"
-                  register={register}
-                  value={payer}
-                />
-                <Button
-                  onClick={() => payItem(payer)}
-                  type="submit"
-                  disabled={isPayed}
-                >
-                  <p>Pagar</p>
-                </Button>
-              </div>
             </>
           </Container>
         )}

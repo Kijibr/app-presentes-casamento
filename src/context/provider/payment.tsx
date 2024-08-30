@@ -16,20 +16,19 @@ const baseGiftState: GiftToPay = {
   image: "",
 }
 
+const setGiftToPay = async (giftOwner: string) => {
+  const giftFromStorage = sessionStorage.getItem('itemToPay');
+  if (giftFromStorage) {
+    const selectedGift = JSON.parse(giftFromStorage) as GiftToPay;
+    await createPaymentAsync(selectedGift, giftOwner);
+  }
+}
+
 export const PaymentProvider: React.FC<ProviderProps> = ({ children }) => {
   const [gift, setGift] = useState<GiftToPay>(baseGiftState);
-  const giftFromStorage = sessionStorage.getItem('itemToPay');
-
   const saveGift = (gift: GiftToPay) => {
     setGift(gift);
     sessionStorage.setItem('itemToPay', JSON.stringify(gift));
-  }
-
-  const setGiftToPay = async (giftOwner: string) => {
-    if (giftFromStorage) { 
-      const selectedGift = JSON.parse(giftFromStorage) as GiftToPay;
-      await createPaymentAsync(selectedGift, giftOwner);
-    }
   }
 
   const unsetGift = () => {

@@ -19,7 +19,7 @@ const GiftContent = styled.div`
   
   border: 1px #c8c8c8;
   border-radius: 8px;
-  gap: 2%;
+  gap: 16px;
 
   overflow: hidden;
 
@@ -34,13 +34,11 @@ const QrCodeWrapper = styled.div`
   margin-top: 2%;
   
   width: fit-content;
-  min-height: 80%;
-
-  border: 1px ${props => props.theme.light_gray} solid;
   border-radius: 8px;
   .qrcode {
     padding: 2px;
     max-width: 180px;
+    height: fit-content;
   }
 `;
 
@@ -99,19 +97,20 @@ export const Details: React.FC<GiftToPay> = ({ id, name, qrCode }) => {
   return (
     <GiftContent className="gift-container">
       <GiftName>{name}</GiftName>
+      <caption>Abra a câmera do seu aplicativo bancário e aponte para o QR Code.</caption>
       <QrCodeWrapper>
         <QRCode className="qrcode" value={qrCode} />
-        <CopyAndPaste
-          onClick={addKeyInClipboard}
-        >
-          {isTransition
-            ?
-            <IoReloadOutline className="loader" />
-            :
-            <>Copie a chave pix para enviar o valor.</>
-          }
-        </CopyAndPaste>
       </QrCodeWrapper>
+      <CopyAndPaste
+        onClick={addKeyInClipboard}
+      >
+        {isTransition
+          ?
+          <IoReloadOutline className="loader" />
+          :
+          <>Copie a chave pix para enviar o valor.</>
+        }
+      </CopyAndPaste>
     </GiftContent >
   );
 }

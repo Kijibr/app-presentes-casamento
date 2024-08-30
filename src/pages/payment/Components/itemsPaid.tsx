@@ -12,7 +12,7 @@ export const Table = styled.table`
     border-bottom: 1px solid #ddd;
   }
 
-  tr:hover {
+  tbody > tr:hover {
     background-color: ${props => props.theme.off_white};
   }
 `;
@@ -57,7 +57,7 @@ const itens = [
 
 export const ItemsPaid: React.FC = () => {
   const totalValue = itens.reduce((acc, gift) => { return acc + gift.value }, 0).toLocaleString(
-    { language: 'pt-BR' },
+    'pt-BR',
     { style: 'currency', currency: 'BRL' }
   );
   
@@ -76,7 +76,7 @@ export const ItemsPaid: React.FC = () => {
             <td>{index + 1}</td>
             <td>{pagamento.name}</td>
             <td>{pagamento.value.toLocaleString(
-              { language: 'pt-BR' },
+              'pt-BR',
               { style: 'currency', currency: 'BRL' }
             )}</td>
           </TableRow>

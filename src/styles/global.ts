@@ -19,7 +19,7 @@ export default createGlobalStyle`
   }
 
   body{
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: "Asap Condensed", Arial, sans-serif;
     font-size: 62.5%;
   } 
   

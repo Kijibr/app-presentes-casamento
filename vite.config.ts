@@ -30,6 +30,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
       },
     },
+    emptyOutDir: true
   },
   server: {
     open: true,
