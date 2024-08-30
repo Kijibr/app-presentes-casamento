@@ -1,4 +1,5 @@
 const Themes = {
+  banner_home: "#C5CFB3",
   light_green: "#99AB7B",
   green: "#80965A",
   dark_green: "#5B6B40",

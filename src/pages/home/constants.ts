@@ -1,7 +1,7 @@
-import betrothed from "../../assets/pombas.png";
-import tips from "../../assets/luz.png";
-import location from "../../assets/mapa.png";
-import gift from "../../assets/presente.png";
+import betrothed from "../../assets/user-check.svg";
+import tips from "../../assets/alert-triangle.svg";
+import location from "../../assets/map-pin.svg";
+import gift from "../../assets/gift.svg";
 
 export type Links = {
   path: string,
@@ -12,27 +12,27 @@ export type Links = {
 
 export const links: Array<Links> = [
   {
-    path: "/betrothed",
-    name: "Noivos",
-    icon: betrothed,
-    autor: "https://www.flaticon.com/br/autores/special/lineal-color?author_id=1&type=standard"
+    path: "/location",
+    name: "Localização",
+    icon: location,
+    autor: "Maria Rita"
   },
   {
     path: "/gifts",
     name: "Lista de presentes",
     icon: gift,
-    autor: ""
+    autor: "Maria Rita"
   },
   {
     path: "/tips",
     name: "Dicas",
     icon: tips,
-    autor: "https://www.flaticon.com/br/autores/design-circle"
+    autor: "Maria Rita"
   },
   {
-    path: "/location",
-    name: "Localização",
-    icon: location,
-    autor: "https://www.flaticon.com/br/autores/basic-rounded/flat?author_id=1&type=standard"
+    path: "/betrothed",
+    name: "Confirmação de presença",
+    icon: betrothed,
+    autor: "Maria Rita"
   },
 ]

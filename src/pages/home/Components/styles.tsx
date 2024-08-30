@@ -12,7 +12,7 @@ const Header = styled.div`
 
   flex-direction: column;
 
-  background-color: #fff;
+  background-color: ${props => props.theme.banner_home};
 
   &.logo{
     animation: fade 2s forwards;
@@ -28,10 +28,10 @@ const Header = styled.div`
         transform: scale(1);
       }
     }
-    background-image: url("${logo}");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+    /* background-image: url("${logo}"); */
+    /* background-size: contain; */
+    /* background-repeat: no-repeat; */
+    /* background-position: center; */
   }
 `;
 
@@ -80,7 +80,7 @@ const Options = styled.div`
   min-width: 360px;
   height: 160px;
 
-  border: 2px solid rgba(0, 0, 0, 0.256);
+  border: 2px solid ${props => props.theme.light_green};
   border-radius: 8px;
     
   img {
@@ -91,6 +91,7 @@ const Options = styled.div`
   span {
     font-family: 'Courier New', Courier, monospace;
     font-size: 18px;
+    color: ${props => props.theme.off_white};
   };
 
   transition: all .4s ease-in-out; 
@@ -102,6 +103,7 @@ const Options = styled.div`
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.256);
   }
 
+  background-color: ${props => props.theme.green};
 `;
 
 
