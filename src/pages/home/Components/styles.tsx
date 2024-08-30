@@ -14,7 +14,11 @@ const Header = styled.div`
 
   background-color: ${props => props.theme.banner_home};
 
-  &.logo{
+  border: 1px;
+  &.logo{    
+    width: 100%;
+    border-radius: 0px 0px 36px 36px;
+
     animation: fade 2s forwards;
     opacity: 0;
     
@@ -28,10 +32,7 @@ const Header = styled.div`
         transform: scale(1);
       }
     }
-    /* background-image: url("${logo}"); */
-    /* background-size: contain; */
-    /* background-repeat: no-repeat; */
-    /* background-position: center; */
+    
   }
 `;
 
