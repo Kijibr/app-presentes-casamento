@@ -39,7 +39,7 @@ const Container = styled.div`
   }
 `;
 
-const returnToHome = (navigation: NavigateFunction): void => navigation("/");
+const returnToHome = (navigation: NavigateFunction): void => navigation("/home");
 
 export default function Root() {
   const { clearGift } = usePaymentContext();

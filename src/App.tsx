@@ -12,10 +12,12 @@ import { PaymentProvider } from "./context/provider/payment";
 
 const router = createBrowserRouter([
   {
-    element: <Root />,
+    path: "/",
+    Component: Root,
     children: [
       {
         index: true,
+        path: "home",
         element: <Home />
       },
       {
