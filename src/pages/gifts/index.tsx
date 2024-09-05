@@ -5,6 +5,7 @@ import { createPaymentAsync } from "src/api";
 import { GiftToPay, GiftType } from "src/types";
 import { getAllgifts } from "src/api/gifts";
 import { useEffect, useState } from "react";
+import { formatCurrencyValue } from "src/utils/formatCurrency";
 
 const paymentPath = "/gifts/payment";
 
@@ -13,7 +14,7 @@ export const GiftsPage = () => {
   const { setGiftDetails } = usePaymentContext();
 
   const [giftsList, setGifts] = useState<GiftType[]>();
-  
+
   useEffect(() => {
     (async () => {
       const items = await getAllgifts();
@@ -41,11 +42,15 @@ export const GiftsPage = () => {
     <Content>
       <WrapperItems>
         {giftsList?.length ? giftsList.map(item => {
+          const giftValueFormatted = formatCurrencyValue(parseFloat(item.giftValue));
           return (
             <GiftBox key={item.id}>
               <img src={item.image} alt="" />
               <p>
                 {item.name}
+              </p>
+              <p className="giftValue">
+                {giftValueFormatted}
               </p>
               <span onClick={() => redirectToPayment(navigate, item)}>Presentear</span>
             </GiftBox>

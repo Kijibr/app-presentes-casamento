@@ -12,7 +12,7 @@ const Content = styled.div`
 `;
 
 const WrapperItems = styled.div`
-  background:${props => props.theme.green};
+  background:${props => props.theme.off_white};
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -32,32 +32,55 @@ const GiftBox = styled.div`
   flex: 1;
   
   gap: 8px;
-  min-width: 240px;
-  max-width: 360px;
-  height: 240px;
+  min-width: 220px;
+  
+  width: 220px;
+  height: 316px;
 
-  background-color:${props => props.theme.off_white};
+  background-color:${props => props.theme.banner_home};
+  
+  font-family: "Questrial", sans-serif;
+  font-weight: 400;
+  color:${props => props.theme.light_white};
 
   img {
-    width: 100px;
-    object-fit: contain;
+    width: 160px;
+    max-width: 240px;
+    height: auto;
+
+    object-fit: cover;
+    aspect-ratio: 3/4;
+    border-radius: 12px;
   };
   
+  p {
+    font-size: 14px;
+    text-align: center;
+    
+    &.giftValue{
+      font-size: 12px;
+      margin-top: -4px;
+    }
+  }
+
   span {
-    border: 2px solid green;
+    border: 1px solid ${props => props.theme.green};
     border-radius: 4px;
     padding: 8px;
     cursor: pointer;
     
+    background-color: ${props => props.theme.light_green};
+    color: ${props => props.theme.light_white};
+    
     &:hover{
-      background-color: #e0ae42;
+      border: 1px solid ${props => props.theme.light_green};
+      background-color: ${props => props.theme.green};
     }
 
     transition: all 0.5s;
   }
-  
-  border: 2px solid rgba(0, 0, 0, 0.256);
-  border-radius: 8px;
+
+  border-radius: 16px;
 `;
 
 export { Content, WrapperItems, GiftBox };
