@@ -2,7 +2,7 @@ import { maxHeight } from "src/styles/global";
 import styled from "styled-components";
 
 const Content = styled.div`
-  background:${props => props.theme.green};
+  background:${props => props.theme.off_white};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,6 +16,8 @@ const WrapperItems = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+
+  justify-content: center;
 
   position: relative;
   gap: 32px;
@@ -33,6 +35,7 @@ const GiftBox = styled.div`
   
   gap: 8px;
   min-width: 220px;
+  max-width: 240px;
   
   width: 220px;
   height: 316px;
