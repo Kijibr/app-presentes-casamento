@@ -85,18 +85,12 @@ export const Invoice = () => {
             <PayerInfo>
               Nome: {userDetails.name}
             </PayerInfo>
-            <PayerInfo>
-              Email: {userDetails.email}
-            </PayerInfo>
           </PayerDetails>
           <PayerDetails>
             PARA:
             <Divider />
             <PayerInfo>
               Nome: Maria B.
-            </PayerInfo>
-            <PayerInfo>
-              Email: maria123@testus.com
             </PayerInfo>
           </PayerDetails>
             <ItemsPaid />
