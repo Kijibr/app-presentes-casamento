@@ -9,6 +9,8 @@ import { useModalHook } from "src/store/modalReducer";
 import Divider from "./Divider";
 import { InputComponent } from "./Input";
 import { useForm } from "react-hook-form";
+import { CheckboxComponent } from "./Checkbox";
+import { getUserGuestAsync } from "src/api/guests";
 
 const Container = styled.div`
   display: flex; 
@@ -39,28 +41,58 @@ const Container = styled.div`
   }
 `;
 
+async function readToken(userId: string, saveUsername: (value: string) => void) {
+  if (userId) {
+    const request = await getUserGuestAsync(userId);
+    const userDetails = request as UserInfoType;
+
+    if (userDetails) {
+      saveUsername(userDetails.name)
+      localStorage.setItem("userIdentified", JSON.stringify(userDetails));
+    }
+  }
+}
+
 const returnToHome = (navigation: NavigateFunction): void => navigation("/home");
+
+function reserUrl() {
+  const newUrl = location.href.replace(location.search, "");
+  location.replace(newUrl);
+}
 
 export default function Root() {
   const { clearGift } = usePaymentContext();
   const navigation = useNavigate();
 
   const { handleModal } = useModalHook();
-  const { user, resetAction } = userHook();
+  const { user, resetAction, setUsername } = userHook();
+
+  useEffect(() => {
+    const hasUser = localStorage.getItem('userInfo');
+    if (!hasUser) {
+      handleModal(true);
+      resetAction();
+    }
+
+    const params = new URLSearchParams(location.search);
+    const userId = params.get("token");
+
+    if (userId) {
+      readToken(userId, setUsername).then(() => reserUrl());
+    }
+  }, [])
 
   useEffect(() => {
     window.addEventListener('storage', () => {
       const hasUser = localStorage.getItem('userInfo');
-      
+
       if (!hasUser) {
-        resetAction();
         handleModal(true);
+        resetAction();
       }
     });
 
   }, [user.identified]);
-
-  const userIsAuthenticated = !!localStorage.getItem("userInfo");
 
   return (
     <Container id="base-div">
@@ -74,7 +106,12 @@ export default function Root() {
           onClick={clearGift}
         />
       </div>
-      <ConfirmationUser identified={userIsAuthenticated} />
+      <ConfirmationUser
+        id={user.id}
+        name={user.name}
+        password={user.password}
+        confirmed={user.identified}
+      />
       <Outlet />
     </Container>
   )
@@ -105,53 +142,57 @@ const FormArea = styled.section`
 `;
 
 export type UserInfoType = {
+  id: string;
   name: string;
-  email: string;
+  password: string;
+  confirmed: boolean;
 }
 
-interface ConfirmationProps {
-  identified: boolean;
-}
-
-const ConfirmationUser = ({ identified }: ConfirmationProps) => {
+const ConfirmationUser = ({ name, confirmed }: UserInfoType) => {
   const { modalOpen, handleModal } = useModalHook();
 
-  const { setUsername, setEmail, loginAction } = userHook();
+  const { setPassword, loginAction } = userHook();
 
-  const { register, getValues } = useForm<UserInfoType>();
+  const { register, getValues, watch } = useForm<UserInfoType>({
+    defaultValues: {
+      confirmed: false,
+    }
+  });
 
-  const saveDetails = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    const { name, email } = getValues();
+  const saveDetails = async () => {
+    const { password } = getValues();
 
-    setUsername(name);
-    setEmail(email);
+    setPassword(password);
 
-    const userInfo = { name, email };
+    const userInfo = { name, password };
     localStorage.setItem('userInfo', JSON.stringify(userInfo));
-    handleModal(false);
     loginAction();
+    handleModal(false);
   }
-  //TODO: review this conditional
-  const showModal: boolean = !!identified || modalOpen.isOpen;
-  
+
+  const userIsAuthenticated = !!localStorage.getItem("userInfo");
+  const showModal: boolean = !userIsAuthenticated || modalOpen.isOpen;
+
+  const confirmedValue = watch('confirmed');
+
   return (
     <Modal
-      openModal={modalOpen.isOpen}
-      closeModal={() => handleModal(false)}
+      openModal={showModal}
       buttonActionCreate={saveDetails}
+      enableButton={confirmedValue}
     >
       <Wrapper>
-        <ModalTitle>Identifique-se para confirmar sua presença</ModalTitle>
+        <ModalTitle>Seja bem vindo(a) {name}!</ModalTitle>
         <Divider />
         <FormArea>
           <InputComponent
-            label="Informe seu nome"
-            name="name"
+            label="Informe sua senha para validar a sua confirmação."
+            name="password"
             register={register}
           />
-          <InputComponent
-            label="Informe seu email"
-            name="email"
+          <CheckboxComponent
+            name="confirmed"
+            label="Clique aqui para confirmar sua presença."
             register={register}
           />
         </FormArea>

@@ -60,7 +60,7 @@ export const ButtonClose = styled.button`
   background: none;
 
   cursor: pointer;
-  color: ${props => props.theme.primary};
+  color: ${props => props.theme.light_green};
 `;
 
 interface FormButtonProps {
@@ -73,7 +73,7 @@ export const FormButton = styled.button<FormButtonProps>`
   height: 40px;
   border-radius: 4px;
   border: 1px solid;
-  color: ${props => props.theme.primary};
+  color: ${props => props.theme.light_green};
   
   display: flex;
   justify-content: center;
@@ -87,8 +87,8 @@ export const FormButton = styled.button<FormButtonProps>`
   &:hover {
     opacity: 90%;
     
-    border: 1px solid ${props => props.theme.primary};
-    color: ${props => props.theme.primary};
+    border: 1px solid ${props => props.theme.light_green};
+    color: ${props => props.theme.green};
   }
 
 	&:disabled {
@@ -96,21 +96,17 @@ export const FormButton = styled.button<FormButtonProps>`
       border-color: ${props => props.theme.gray};
 		};
     
+		background-color: ${props => props.theme.gray};
 		border-color: ${props => props.theme.gray};
 		color: ${props => props.theme.gray};
     cursor: not-allowed;
 	}
 
   &.button-full {
-      margin: 0 6px;
-			width: 100%;
-			background-color: ${props => props.theme.primary};
-			color: ${props => props.theme.white};
-			
-			&:hover {
-				background-color: ${props => props.theme.primary};
-			};
-		}
+    margin: 0 6px;
+    width: 100%;
+    color: ${props => props.theme.white};	
+  }
 
   line-height: 16px;
 `;

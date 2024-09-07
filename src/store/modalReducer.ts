@@ -5,7 +5,7 @@ type modalState = {
 }
 
 const initialState: modalState = {
-  isOpen: true
+  isOpen: false
 };
 
 type modalAction = { type: 'TOGGLE_MODAL', payload: boolean };

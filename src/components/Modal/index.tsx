@@ -9,12 +9,13 @@ interface ModalProps {
   className?: string;
 
   openModal: boolean;
-  closeModal: () => void;
+  closeModal?: () => void;
 
   customSize?: boolean;
   customWidth?: string;
   customHeight?: string;
 
+  enableButton: boolean;
   buttonActionCreate?: (event: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
 }
 
@@ -23,6 +24,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>((props: ModalProps, ref) =>
     children,
     className,
     openModal,
+    enableButton = true,
     closeModal,
     buttonActionCreate,
     ...rest
@@ -40,8 +42,6 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>((props: ModalProps, ref) =>
               "smallBox",
               className)}
           >
-            <ButtonClose
-              id="closeModal" onClick={closeModal}><AiOutlineCloseCircle style={{ fontSize: '1.6rem' }} /></ButtonClose>
             <>
               {children}
             </>
@@ -50,9 +50,10 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>((props: ModalProps, ref) =>
                 id="modalButton"
                 type="submit"
                 className="button-full"
+                disabled={!enableButton}
                 onClick={buttonActionCreate}
               >
-                Confirmar
+                Enviar resposta
               </FormButton>
             </AreaButtons>
           </ModalContent>,

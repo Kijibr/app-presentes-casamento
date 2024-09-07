@@ -1,23 +1,25 @@
 import { useReducer } from "react";
+import { useModalHook } from "./modalReducer";
 
 type UserState = {
+  id: string;
   name: string;
-  email: string;
-  age: number;
+  password: string;
   identified: boolean;
+  confirmed: boolean;
 }
 
 const initialState: UserState = {
+  id: '',
   name: '',
-  email: '',
-  age: 0,
+  password: '',
   identified: false,
+  confirmed: false,
 };
 
 type UserAction =
   | { type: 'SET_NAME'; payload: string }
-  | { type: 'SET_EMAIL'; payload: string }
-  | { type: 'SET_AGE'; payload: number }
+  | { type: 'SET_PASSWORD'; payload: string }
   | { type: 'TOGGLE_IDENTIFIED' }
   | { type: 'RESET_INFO' };
 
@@ -25,10 +27,8 @@ const userReducer = (state: UserState, action: UserAction): UserState => {
   switch (action.type) {
     case "SET_NAME":
       return { ...state, name: action.payload };
-    case "SET_EMAIL":
-      return { ...state, name: action.payload };
-    case "SET_AGE":
-      return { ...state, age: action.payload };
+    case "SET_PASSWORD":
+      return { ...state, password: action.payload };
     case "TOGGLE_IDENTIFIED":
       return { ...state, identified: !state.identified };
     case "RESET_INFO":
@@ -48,16 +48,9 @@ export const userHook = () => {
     });
   }
 
-  function setEmail(value: string) {
+  function setPassword(value: string) {
     dispatch({
-      type: "SET_EMAIL",
-      payload: value
-    });
-  }
-
-  function setAge(value: number) {
-    dispatch({
-      type: "SET_AGE",
+      type: "SET_PASSWORD",
       payload: value
     });
   }
@@ -77,8 +70,7 @@ export const userHook = () => {
   return {
     user: userState,
     setUsername,
-    setEmail,
-    setAge,
+    setPassword,
     loginAction,
     resetAction
   }

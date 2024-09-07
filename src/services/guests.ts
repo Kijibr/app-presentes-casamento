@@ -1,6 +1,6 @@
 // import { guestsCollection } from "./firebase";
 
-export const getAllGuests = async () => {
+export const getUserGuest = async (userId: string) => {
   // const guestsSnap = await getDocs(guestsCollection);
 
   // const result = guestsSnap.docs.map(item => item.data());
