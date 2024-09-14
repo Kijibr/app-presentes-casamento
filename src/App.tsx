@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
 import GlobalStyle from "./styles/global";
 import { Home } from "./pages/home";
 import { GiftsPage } from "./pages/gifts";
@@ -9,15 +9,16 @@ import { ThemeProvider } from "styled-components";
 import Themes from "./styles/palette";
 import { CheckoutPage } from "./pages/payment/checkout";
 import { PaymentProvider } from "./context/provider/payment";
+import { Provider } from "react-redux";
+import store from "./store/store";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: Root,
+    element: <Root />,
     children: [
       {
         index: true,
-        path: "home",
         element: <Home />
       },
       {
@@ -37,16 +38,19 @@ const router = createBrowserRouter([
         element: <Location />
       },
     ],
-  }]);
+  },
+]);
 
 function App() {
   return (
     <div>
       <ThemeProvider theme={Themes}>
-        <PaymentProvider>
-          <GlobalStyle />
-          <RouterProvider router={router} />
-        </PaymentProvider>
+        <Provider store={store}>
+          <PaymentProvider>
+            <GlobalStyle />
+            <RouterProvider router={router} />
+          </PaymentProvider>
+        </Provider>
       </ThemeProvider>
     </div>
   );
