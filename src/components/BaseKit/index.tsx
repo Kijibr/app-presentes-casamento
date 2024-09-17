@@ -155,7 +155,7 @@ const ConfirmationUser = ({ name, confirmed }: UserInfoType) => {
   const { modalOpen, handleModal } = useModalHook();
   const dispatch = useAppDispatch();
 
-  const { formState: { errors }, register, getValues, watch, setError, clearErrors } = useForm<UserInfoType>({
+  const { formState: { errors }, register, getValues, watch, setError, clearErrors, reset } = useForm<UserInfoType>({
     defaultValues: {
       confirmed: false,
     }
@@ -174,6 +174,7 @@ const ConfirmationUser = ({ name, confirmed }: UserInfoType) => {
         dispatch(toggleIdentified());
         localStorage.setItem('userIdentified', 'true');
         handleModal(false);
+        reset();
         return;
       }
       setError("password", { message: "A senha está incorreta!" });
