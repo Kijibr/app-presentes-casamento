@@ -1,3 +1,4 @@
+import { mediaQueryDown } from "src/styles/breakPoints";
 import { maxHeight } from "src/styles/global";
 import styled from "styled-components";
 
@@ -21,7 +22,7 @@ const WrapperItems = styled.div`
 
   position: relative;
   gap: 32px;
-  padding: 48px 32px;
+  padding: 48px 24px;
 `;
 
 const GiftBox = styled.div`
@@ -40,6 +41,16 @@ const GiftBox = styled.div`
   width: 220px;
   height: 316px;
 
+  ${mediaQueryDown.xs} {
+    min-width: 140px;
+    height: 296px;
+  }
+
+  ${mediaQueryDown.xxs}{
+    min-width: 100px;
+    height: 248px;
+  }
+
   background-color:${props => props.theme.banner_home};
   
   font-family: "Questrial", sans-serif;
@@ -48,9 +59,17 @@ const GiftBox = styled.div`
 
   img {
     width: 160px;
+
+    ${mediaQueryDown.xs} {
+      width: 128px;
+    }
+    ${mediaQueryDown.xxs}{
+      width: 98px;
+    }
+
     max-width: 240px;
     height: auto;
-
+    
     object-fit: cover;
     aspect-ratio: 3/4;
     border-radius: 12px;
@@ -58,11 +77,21 @@ const GiftBox = styled.div`
   
   p {
     font-size: 14px;
-    text-align: center;
     
+    ${mediaQueryDown.xs} {
+      font-size: 1.8vmax;
+    }
+    
+    ${mediaQueryDown.xxs}{
+      font-size: 1.6vmax;
+    }
+
+    text-align: center;
+    padding: 0 4px;
+
     &.giftValue{
       font-size: 12px;
-      margin-top: -4px;
+      margin-top: -2px;
     }
   }
 
@@ -74,7 +103,13 @@ const GiftBox = styled.div`
     
     background-color: ${props => props.theme.light_green};
     color: ${props => props.theme.light_white};
-    
+
+    font-size: 0.8vmax;
+
+    ${mediaQueryDown.xs} {
+      font-size: 1.4vmax;
+    }
+
     &:hover{
       border: 1px solid ${props => props.theme.light_green};
       background-color: ${props => props.theme.green};
