@@ -16,4 +16,6 @@ export const useAppDispatch: () => typeof storeDispatch = useDispatch;
 export type AppState = ReturnType<typeof storeState>;
 export const useAppSelector: TypedUseSelectorHook<ReturnType<typeof storeState>> = useSelector;
 
+export const useGuestHook = () => useAppSelector((x: AppState) => x.users);
+
 export default store;

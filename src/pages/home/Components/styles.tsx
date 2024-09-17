@@ -57,7 +57,6 @@ const OptionsWrapper = styled.div`
 
   flex-direction: row;
   max-width: 100dvw;
-  justify-content: space-between;
   overflow: hidden;
   align-items: center;
   

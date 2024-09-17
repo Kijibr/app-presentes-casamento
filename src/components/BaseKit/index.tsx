@@ -10,7 +10,7 @@ import { InputComponent } from "./Input";
 import { useForm } from "react-hook-form";
 import { CheckboxComponent } from "./Checkbox";
 import { confirmInviteAsync, getUserGuestAsync } from "src/api/guests";
-import { AppState, useAppDispatch, useAppSelector } from "src/store/store";
+import { useAppDispatch, useGuestHook } from "src/store/store";
 import { resetInfo, setPassword, setUsername, toggleIdentified } from "src/store/userReducer";
 import { addToStorage, getFromStorage, updateStorage } from "src/utils/storage";
 
@@ -50,6 +50,8 @@ async function readToken(userId: string) {
 
     if (userDetails) {
       addToStorage("userInfo", userDetails);
+      if (userDetails?.answered)
+        addToStorage('userIdentified', 'true');
     }
   }
 }
@@ -63,7 +65,7 @@ function resetUrl() {
 
 export default function Root() {
   const dispatch = useAppDispatch();
-  const { name, identified, password, id } = useAppSelector((x: AppState) => x.users);
+  const { name, identified, password, id } = useGuestHook();
 
   const { clearGift } = usePaymentContext();
   const navigation = useNavigate();
@@ -72,8 +74,7 @@ export default function Root() {
 
   useEffect(() => {
     const hasUser = getFromStorage<UserInfoType>('userInfo');
-
-    if (!hasUser || hasUser.answered === false) {
+    if (!hasUser || hasUser?.answered === false) {
       handleModal(true);
       dispatch(resetInfo());
     }
@@ -176,7 +177,7 @@ const ConfirmationUser = ({ name }: UserInfoType) => {
         dispatch(setUsername(userDetails.name));
         dispatch(toggleIdentified());
         userDetails.answered = true
-        updateStorage('userIdentified', userDetails);
+        updateStorage('userInfo', userDetails);
         addToStorage('userIdentified', 'true');
         handleModal(false);
         reset();

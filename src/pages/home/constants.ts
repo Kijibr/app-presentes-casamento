@@ -8,6 +8,7 @@ export type Links = {
   name: string,
   icon: string,
   autor: string,
+  guestConfirmed: boolean;
 }
 
 export const links: Array<Links> = [
@@ -15,24 +16,28 @@ export const links: Array<Links> = [
     path: "/location",
     name: "Localização",
     icon: location,
-    autor: "Maria Rita"
+    autor: "Maria Rita",
+    guestConfirmed: true
   },
   {
     path: "/gifts",
     name: "Lista de presentes",
     icon: gift,
-    autor: "Maria Rita"
+    autor: "Maria Rita",
+    guestConfirmed: true
   },
   {
     path: "/tips",
     name: "Dicas",
     icon: tips,
-    autor: "Maria Rita"
+    autor: "Maria Rita",
+    guestConfirmed: false
   },
   {
     path: "/betrothed",
     name: "Confirmação de presença",
     icon: betrothed,
-    autor: "Maria Rita"
+    autor: "Maria Rita",
+    guestConfirmed: false
   },
 ]

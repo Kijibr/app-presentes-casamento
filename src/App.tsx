@@ -5,16 +5,17 @@ import { GiftsPage } from "./pages/gifts";
 import { Location } from "./pages/location";
 import Root from "./components/BaseKit";
 import { TipsPage } from "./pages/tips";
-import { ThemeProvider } from "styled-components";
+import { StyleSheetManager, ThemeProvider } from "styled-components";
 import Themes from "./styles/palette";
 import { CheckoutPage } from "./pages/payment/checkout";
 import { PaymentProvider } from "./context/provider/payment";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import isPropValid from '@emotion/is-prop-valid'
 
 const router = createBrowserRouter([
   {
-    element: <Root/>,
+    element: <Root />,
     children: [
       {
         index: true,
@@ -51,8 +52,10 @@ function App() {
       <ThemeProvider theme={Themes}>
         <Provider store={store}>
           <PaymentProvider>
-            <GlobalStyle />
-            <RouterProvider router={router} />
+            <StyleSheetManager shouldForwardProp={isPropValid}>
+              <GlobalStyle />
+              <RouterProvider router={router} />
+            </StyleSheetManager>
           </PaymentProvider>
         </Provider>
       </ThemeProvider>
