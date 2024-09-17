@@ -159,7 +159,15 @@ const ConfirmationUser = ({ name }: UserInfoType) => {
   const { modalOpen, handleModal } = useModalHook();
   const dispatch = useAppDispatch();
 
-  const { formState: { errors }, register, getValues, watch, setError, clearErrors, reset } = useForm<UserInfoType>({
+  const {
+    formState: { errors },
+    register,
+    getValues,
+    watch,
+    setError,
+    clearErrors,
+    reset
+  } = useForm<UserInfoType>({
     defaultValues: {
       confirmed: false,
     }
@@ -176,10 +184,16 @@ const ConfirmationUser = ({ name }: UserInfoType) => {
       if (answerSended) {
         dispatch(setUsername(userDetails.name));
         dispatch(toggleIdentified());
+
         userDetails.answered = true
+
+        if (confirmed)
+          userDetails.confirmed = true;
+
         updateStorage('userInfo', userDetails);
         addToStorage('userIdentified', 'true');
         handleModal(false);
+        resetUrl();
         reset();
         return;
       }

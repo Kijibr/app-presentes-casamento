@@ -10,7 +10,7 @@ export function Home() {
   const navigate = useNavigate();
   const confirmed = !!getFromStorage<UserInfoType>('userInfo')?.confirmed;
   
-  const optionsAllowedToGuest = links.filter(x => x.guestConfirmed === confirmed);
+  const optionsAllowedToGuest = confirmed ? links : links.filter(x => x.guestConfirmed === confirmed);
 
   return (
     <Content>
