@@ -1,4 +1,4 @@
-import React, {  } from 'react';
+import React, { } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 import styled from "styled-components"
 
@@ -32,10 +32,19 @@ const Input = styled.input`
   }
 `;
 
+const ErrorMessage = styled.div`
+  display: flex;
+  align-items: center;
+  color: ${(props) => props.theme.dark_green};
+
+  margin-top: -16px;
+`;
+
 type InputProps = {
   name: string;
   label: string;
   type?: string;
+  error?: string;
   value?: string;
   handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
   register: UseFormRegister<any>;
@@ -45,6 +54,7 @@ export const InputComponent: React.FC<InputProps> = ({
   name,
   label,
   type = "text",
+  error,
   value,
   register,
   handleChange
@@ -59,6 +69,11 @@ export const InputComponent: React.FC<InputProps> = ({
         type={type}
         value={value}
       />
+      {error && (
+        <ErrorMessage>
+          {error}
+        </ErrorMessage>
+      )}
     </Container>
   )
 };

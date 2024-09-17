@@ -2,7 +2,6 @@ import { NavigateFunction, Outlet, useNavigate } from "react-router-dom"
 import { FiHome } from "react-icons/fi"
 import styled from "styled-components"
 import { usePaymentContext } from "src/context/payment";
-import { userHook } from "src/store/userReducer";
 import { useEffect } from "react";
 import Modal from "../Modal";
 import { useModalHook } from "src/store/modalReducer";
@@ -10,7 +9,9 @@ import Divider from "./Divider";
 import { InputComponent } from "./Input";
 import { useForm } from "react-hook-form";
 import { CheckboxComponent } from "./Checkbox";
-import { getUserGuestAsync } from "src/api/guests";
+import { confirmInviteAsync, getUserGuestAsync } from "src/api/guests";
+import { AppState, useAppDispatch, useAppSelector } from "src/store/store";
+import { resetInfo, setPassword, setUsername, toggleIdentified } from "src/store/userReducer";
 
 const Container = styled.div`
   display: flex; 
@@ -41,44 +42,45 @@ const Container = styled.div`
   }
 `;
 
-async function readToken(userId: string, saveUsername: (value: string) => void) {
+async function readToken(userId: string) {
   if (userId) {
     const request = await getUserGuestAsync(userId);
     const userDetails = request as UserInfoType;
 
     if (userDetails) {
-      saveUsername(userDetails.name)
-      localStorage.setItem("userIdentified", JSON.stringify(userDetails));
+      localStorage.setItem("userInfo", JSON.stringify(userDetails));
     }
   }
 }
 
 const returnToHome = (navigation: NavigateFunction): void => navigation("/home");
 
-function reserUrl() {
+function resetUrl() {
   const newUrl = location.href.replace(location.search, "");
   location.replace(newUrl);
 }
 
 export default function Root() {
+  const dispatch = useAppDispatch();
+  const { name, identified, password, id } = useAppSelector((x: AppState) => x.users);
+
   const { clearGift } = usePaymentContext();
   const navigation = useNavigate();
 
   const { handleModal } = useModalHook();
-  const { user, resetAction, setUsername } = userHook();
 
   useEffect(() => {
     const hasUser = localStorage.getItem('userInfo');
     if (!hasUser) {
       handleModal(true);
-      resetAction();
+      dispatch(resetInfo());
     }
 
     const params = new URLSearchParams(location.search);
     const userId = params.get("token");
 
     if (userId) {
-      readToken(userId, setUsername).then(() => reserUrl());
+      readToken(userId).then(() => resetUrl());
     }
   }, [])
 
@@ -87,12 +89,13 @@ export default function Root() {
       const hasUser = localStorage.getItem('userInfo');
 
       if (!hasUser) {
+        // SHOW MODAL TO REQUEST USER FOR ACCESS APP FROM LINK IF HASNT TOKEN IN URL
         handleModal(true);
-        resetAction();
+        dispatch(resetInfo());
       }
     });
 
-  }, [user.identified]);
+  }, [identified]);
 
   return (
     <Container id="base-div">
@@ -107,10 +110,10 @@ export default function Root() {
         />
       </div>
       <ConfirmationUser
-        id={user.id}
-        name={user.name}
-        password={user.password}
-        confirmed={user.identified}
+        id={id}
+        name={name}
+        password={password}
+        confirmed={identified}
       />
       <Outlet />
     </Container>
@@ -150,36 +153,43 @@ export type UserInfoType = {
 
 const ConfirmationUser = ({ name, confirmed }: UserInfoType) => {
   const { modalOpen, handleModal } = useModalHook();
+  const dispatch = useAppDispatch();
 
-  const { setPassword, loginAction } = userHook();
-
-  const { register, getValues, watch } = useForm<UserInfoType>({
+  const { formState: { errors }, register, getValues, watch, setError, clearErrors } = useForm<UserInfoType>({
     defaultValues: {
       confirmed: false,
     }
   });
 
   const saveDetails = async () => {
-    const { password } = getValues();
+    clearErrors();
+    const { password, confirmed } = getValues();
+    dispatch(setPassword(password));
 
-    setPassword(password);
-
-    const userInfo = { name, password };
-    localStorage.setItem('userInfo', JSON.stringify(userInfo));
-    loginAction();
-    handleModal(false);
+    const userDetails = JSON.parse(localStorage.getItem("userInfo")!) as UserInfoType;
+    if (!!userDetails) {
+      const asnwerSended = await confirmInviteAsync(userDetails.id, confirmed, password)
+      if (asnwerSended){
+        dispatch(setUsername(userDetails.name));
+        dispatch(toggleIdentified());
+        localStorage.setItem('userIdentified', 'true');
+        handleModal(false);
+        return;
+      }
+      setError("password", { message: "A senha está incorreta!" });
+    }
   }
 
-  const userIsAuthenticated = !!localStorage.getItem("userInfo");
+  const userIsAuthenticated = !!localStorage.getItem("userIdentified");
   const showModal: boolean = !userIsAuthenticated || modalOpen.isOpen;
 
-  const confirmedValue = watch('confirmed');
+  const confirmedValue = watch('password');
 
   return (
     <Modal
       openModal={showModal}
       buttonActionCreate={saveDetails}
-      enableButton={confirmedValue}
+      enableButton={!!confirmedValue}
     >
       <Wrapper>
         <ModalTitle>Seja bem vindo(a) {name}!</ModalTitle>
@@ -188,11 +198,12 @@ const ConfirmationUser = ({ name, confirmed }: UserInfoType) => {
           <InputComponent
             label="Informe sua senha para validar a sua confirmação."
             name="password"
+            error={errors?.password?.message}
             register={register}
           />
           <CheckboxComponent
             name="confirmed"
-            label="Clique aqui para confirmar sua presença."
+            label="CLIQUE AQUI PARA CONFIRMAR SUA PRESENÇA."
             register={register}
           />
         </FormArea>

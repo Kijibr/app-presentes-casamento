@@ -1,7 +1,8 @@
 import { useReducer } from "react";
 import { useModalHook } from "./modalReducer";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type UserState = {
+export type UserState = {
   id: string;
   name: string;
   password: string;
@@ -17,61 +18,31 @@ const initialState: UserState = {
   confirmed: false,
 };
 
-type UserAction =
-  | { type: 'SET_NAME'; payload: string }
-  | { type: 'SET_PASSWORD'; payload: string }
-  | { type: 'TOGGLE_IDENTIFIED' }
-  | { type: 'RESET_INFO' };
 
-const userReducer = (state: UserState, action: UserAction): UserState => {
-  switch (action.type) {
-    case "SET_NAME":
-      return { ...state, name: action.payload };
-    case "SET_PASSWORD":
-      return { ...state, password: action.payload };
-    case "TOGGLE_IDENTIFIED":
+const userSlice = createSlice({
+  initialState,
+  name: "user",
+  reducers: {
+    setUsername: (state, { payload }: PayloadAction<string>) => {
+      return { ...state, name: payload };
+    },
+    setPassword: (state, { payload }: PayloadAction<string>) => {
+      return { ...state, password: payload };
+    },
+    toggleIdentified: (state) => {
       return { ...state, identified: !state.identified };
-    case "RESET_INFO":
+    },
+    resetInfo: () => {
       return initialState;
-    default:
-      return state;
+    }
   }
-}
+});
 
-export const userHook = () => {
-  const [userState, dispatch] = useReducer(userReducer, initialState);
+export const {
+  setUsername,
+  setPassword,
+  toggleIdentified,
+  resetInfo
+} = userSlice.actions;
 
-  function setUsername(value: string) {
-    dispatch({
-      type: "SET_NAME",
-      payload: value
-    });
-  }
-
-  function setPassword(value: string) {
-    dispatch({
-      type: "SET_PASSWORD",
-      payload: value
-    });
-  }
-
-  function loginAction() {
-    dispatch({
-      type: "TOGGLE_IDENTIFIED"
-    });
-  }
-
-  function resetAction() {
-    dispatch({
-      type: "RESET_INFO"
-    });
-  }
-
-  return {
-    user: userState,
-    setUsername,
-    setPassword,
-    loginAction,
-    resetAction
-  }
-}
+export default userSlice.reducer;

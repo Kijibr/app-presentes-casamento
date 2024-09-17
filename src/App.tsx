@@ -14,11 +14,11 @@ import store from "./store/store";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Root />,
+    element: <Root/>,
     children: [
       {
         index: true,
+        path: "home",
         element: <Home />
       },
       {
@@ -39,6 +39,10 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "*",
+    element: <Navigate to={"home"} replace />
+  }
 ]);
 
 function App() {
