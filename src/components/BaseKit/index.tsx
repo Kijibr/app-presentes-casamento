@@ -12,6 +12,7 @@ import { CheckboxComponent } from "./Checkbox";
 import { confirmInviteAsync, getUserGuestAsync } from "src/api/guests";
 import { AppState, useAppDispatch, useAppSelector } from "src/store/store";
 import { resetInfo, setPassword, setUsername, toggleIdentified } from "src/store/userReducer";
+import { addToStorage, getFromStorage, updateStorage } from "src/utils/storage";
 
 const Container = styled.div`
   display: flex; 
@@ -48,7 +49,7 @@ async function readToken(userId: string) {
     const userDetails = request as UserInfoType;
 
     if (userDetails) {
-      localStorage.setItem("userInfo", JSON.stringify(userDetails));
+      addToStorage("userInfo", userDetails);
     }
   }
 }
@@ -70,8 +71,9 @@ export default function Root() {
   const { handleModal } = useModalHook();
 
   useEffect(() => {
-    const hasUser = localStorage.getItem('userInfo');
-    if (!hasUser) {
+    const hasUser = getFromStorage<UserInfoType>('userInfo');
+
+    if (!hasUser || hasUser.answered === false) {
       handleModal(true);
       dispatch(resetInfo());
     }
@@ -86,7 +88,7 @@ export default function Root() {
 
   useEffect(() => {
     window.addEventListener('storage', () => {
-      const hasUser = localStorage.getItem('userInfo');
+      const hasUser = getFromStorage<UserInfoType>('userInfo');
 
       if (!hasUser) {
         // SHOW MODAL TO REQUEST USER FOR ACCESS APP FROM LINK IF HASNT TOKEN IN URL
@@ -149,9 +151,10 @@ export type UserInfoType = {
   name: string;
   password: string;
   confirmed: boolean;
+  answered?: boolean;
 }
 
-const ConfirmationUser = ({ name, confirmed }: UserInfoType) => {
+const ConfirmationUser = ({ name }: UserInfoType) => {
   const { modalOpen, handleModal } = useModalHook();
   const dispatch = useAppDispatch();
 
@@ -166,13 +169,15 @@ const ConfirmationUser = ({ name, confirmed }: UserInfoType) => {
     const { password, confirmed } = getValues();
     dispatch(setPassword(password));
 
-    const userDetails = JSON.parse(localStorage.getItem("userInfo")!) as UserInfoType;
+    const userDetails = getFromStorage<UserInfoType>("userInfo");
     if (!!userDetails) {
-      const asnwerSended = await confirmInviteAsync(userDetails.id, confirmed, password)
-      if (asnwerSended){
+      const answerSended = await confirmInviteAsync(userDetails.id, confirmed, password)
+      if (answerSended) {
         dispatch(setUsername(userDetails.name));
         dispatch(toggleIdentified());
-        localStorage.setItem('userIdentified', 'true');
+        userDetails.answered = true
+        updateStorage('userIdentified', userDetails);
+        addToStorage('userIdentified', 'true');
         handleModal(false);
         reset();
         return;
@@ -181,7 +186,7 @@ const ConfirmationUser = ({ name, confirmed }: UserInfoType) => {
     }
   }
 
-  const userIsAuthenticated = !!localStorage.getItem("userIdentified");
+  const userIsAuthenticated = !!getFromStorage<boolean>("userIdentified");
   const showModal: boolean = !userIsAuthenticated || modalOpen.isOpen;
 
   const confirmedValue = watch('password');

@@ -6,6 +6,7 @@ import { GiftToPay, GiftType } from "src/types";
 import { getAllgifts } from "src/api/gifts";
 import { useEffect, useState } from "react";
 import { formatCurrencyValue } from "src/utils/formatCurrency";
+import { getFromStorage } from "src/utils/storage";
 
 const paymentPath = "/gifts/payment";
 
@@ -23,7 +24,7 @@ export const GiftsPage = () => {
   }, [])
 
   const redirectToPayment = async (navigate: NavigateFunction, item: GiftType) => {
-    const currentUser = localStorage.getItem('userInfo') ?? "MockUser";
+    const currentUser = getFromStorage<string>('userInfo') ?? "MockUser";
     const generatePayment = await createPaymentAsync(item, currentUser);
 
     const giftToPay: GiftToPay = {

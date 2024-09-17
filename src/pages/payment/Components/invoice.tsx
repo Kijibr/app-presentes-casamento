@@ -4,6 +4,7 @@ import Divider from "src/components/BaseKit/Divider";
 import styled, { css, keyframes } from "styled-components"
 import { ItemsPaid } from "./itemsPaid";
 import { UserInfoType } from "src/components/BaseKit";
+import { getFromStorage } from "src/utils/storage";
 
 const fadeOut = keyframes`
   from {
@@ -70,7 +71,7 @@ export const Invoice = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const userDetails = JSON.parse(localStorage.getItem("userInfo") ?? "") as UserInfoType;
+  const userDetails = getFromStorage<UserInfoType>("userInfo");
 
   return (
     <InvoiceWrapper id="invoice">
