@@ -2,9 +2,10 @@
   "compilerOptions": {
     "target": "es5",
     "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
+      "DOM",
+      "DOM.Iterable",
+      "ESnext",
+      "WebWorker"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -16,13 +17,18 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "types": ["vite/client"],
+    "types": [
+      "vite/client", 
+      "vite-plugin-pwa/client",
+      "vite-plugin-pwa/react",
+    ],
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "."
   },
   "include": [
-    "src"
+    "src",
+    "types.d.ts"
   ]
 }

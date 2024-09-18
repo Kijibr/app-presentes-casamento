@@ -14,7 +14,15 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
-      manifest: manifestsSetup as ManifestOptions
+      srcDir: 'src',
+      filename: 'sw.ts',
+      strategies: 'injectManifest',
+      manifest: manifestsSetup as ManifestOptions,
+      devOptions: {
+        enabled: true,
+        type: 'module',
+        navigateFallback: 'index.html',
+      },
     })
   ],
   assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.svg'],
