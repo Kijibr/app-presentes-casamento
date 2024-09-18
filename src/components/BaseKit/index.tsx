@@ -83,6 +83,7 @@ export default function Root() {
     const userId = params.get("token");
 
     if (userId) {
+      clearGift();
       readToken(userId).then(() => resetUrl());
     }
   }, [])

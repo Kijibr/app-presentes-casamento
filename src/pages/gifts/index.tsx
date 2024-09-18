@@ -1,4 +1,4 @@
-import { Content, GiftBox, WrapperItems } from "./styles";
+import { Content, GiftBox, SendGiftButton, WrapperItems } from "./styles";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { usePaymentContext } from "../../context/payment";
 import { createPaymentAsync } from "src/api";
@@ -7,12 +7,16 @@ import { getAllgifts } from "src/api/gifts";
 import { useEffect, useState } from "react";
 import { formatCurrencyValue } from "src/utils/formatCurrency";
 import { getFromStorage } from "src/utils/storage";
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 const paymentPath = "/gifts/payment";
 
 export const GiftsPage = () => {
   const navigate = useNavigate();
   const { setGiftDetails } = usePaymentContext();
+
+  const [loadingGiftButton, setLoading] = useState<string | null>(null);
 
   const [giftsList, setGifts] = useState<GiftType[]>();
 
@@ -24,6 +28,7 @@ export const GiftsPage = () => {
   }, [])
 
   const redirectToPayment = async (navigate: NavigateFunction, item: GiftType) => {
+    setLoading(item.id);
     const currentUser = getFromStorage<string>('userInfo') ?? "MockUser";
     const generatePayment = await createPaymentAsync(item, currentUser);
 
@@ -36,6 +41,7 @@ export const GiftsPage = () => {
     };
 
     setGiftDetails(giftToPay);
+    setLoading(null);
     navigate(paymentPath);
   };
 
@@ -44,6 +50,8 @@ export const GiftsPage = () => {
       <WrapperItems>
         {giftsList?.length ? giftsList.map(item => {
           const giftValueFormatted = formatCurrencyValue(parseFloat(item.giftValue));
+
+          const enableLoading = loadingGiftButton === item.id;
           return (
             <GiftBox key={item.id}>
               <img src={item.image} alt="" />
@@ -53,7 +61,16 @@ export const GiftsPage = () => {
               <p className="giftValue">
                 {giftValueFormatted}
               </p>
-              <span onClick={() => redirectToPayment(navigate, item)}>Presentear</span>
+              {enableLoading
+                ?
+                <SendGiftButton>
+                  <CircularProgress color="inherit" size={16} />
+                </SendGiftButton>
+                :
+                <SendGiftButton onClick={() => redirectToPayment(navigate, item)}>
+                  Presentear
+                </SendGiftButton>
+              }
             </GiftBox>
           )
         }) : null}

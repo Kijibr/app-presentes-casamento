@@ -95,30 +95,38 @@ const GiftBox = styled.div`
     }
   }
 
-  span {
-    border: 1px solid ${props => props.theme.green};
-    border-radius: 4px;
-    padding: 8px;
-    cursor: pointer;
-    
-    background-color: ${props => props.theme.light_green};
-    color: ${props => props.theme.light_white};
-
-    font-size: 0.8vmax;
-
-    ${mediaQueryDown.xs} {
-      font-size: 1.4vmax;
-    }
-
-    &:hover{
-      border: 1px solid ${props => props.theme.light_green};
-      background-color: ${props => props.theme.green};
-    }
-
-    transition: all 0.5s;
-  }
-
   border-radius: 16px;
 `;
 
-export { Content, WrapperItems, GiftBox };
+const SendGiftButton = styled.span`
+  border: 1px solid ${props => props.theme.green};
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+
+  width: 78px;
+  height: 32px;
+  text-align: center;
+  
+  background-color: ${props => props.theme.light_green};
+  color: ${props => props.theme.light_white};
+
+  font-size: 0.8vmax;
+
+  ${mediaQueryDown.xs} {
+    font-size: 1.4vmax;
+  }
+
+  &:hover{
+    border: 1px solid ${props => props.theme.light_green};
+    background-color: ${props => props.theme.green};
+  }
+
+  &.loading {
+    font-size: 12px;
+  }
+
+  transition: all 0.5s;
+`;
+
+export { Content, WrapperItems, GiftBox, SendGiftButton };
