@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { formatCurrencyValue } from "src/utils/formatCurrency";
 import { getFromStorage } from "src/utils/storage";
 import CircularProgress from '@mui/material/CircularProgress';
+import { UserInfoType } from "src/components/BaseKit";
 
 
 const paymentPath = "/gifts/payment";
@@ -29,8 +30,8 @@ export const GiftsPage = () => {
 
   const redirectToPayment = async (navigate: NavigateFunction, item: GiftType) => {
     setLoading(item.id);
-    const currentUser = getFromStorage<string>('userInfo') ?? "MockUser";
-    const generatePayment = await createPaymentAsync(item, currentUser);
+    const currentUser = getFromStorage<UserInfoType>('userInfo');
+    const generatePayment = await createPaymentAsync(item, currentUser.name);
 
     const giftToPay: GiftToPay = {
       id: item.id,
