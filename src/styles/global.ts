@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { mediaQueryUp } from "./breakPoints";
 
 export const maxWidth = `${window.screen.availHeight}px`;
 export const maxHeight = `${window.screen.availWidth}px`;
@@ -22,11 +23,12 @@ export default createGlobalStyle`
     font-family: "Asap Condensed", Arial, sans-serif;
     font-size: 62.5%;
   } 
-  
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
+  ${mediaQueryUp.sm} {
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+  };
 
   ::-webkit-scrollbar-track {
     background: #f1f1f1;
