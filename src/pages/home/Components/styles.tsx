@@ -5,7 +5,7 @@ import logo from 'src/assets/logo_nossa.png'
 const Header = styled.div`
   display: flex;
   width: 100%;
-  height: 60vh;
+  height: 70vh;
 
   justify-content: center;
   align-items: center;
