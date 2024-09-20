@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import QRCode from "react-qr-code";
-import { useTransition } from "react";
-import { IoReloadOutline } from "react-icons/io5";
 import { GiftToPay } from "src/types";
+import { Clipboard } from "src/components/Clipboard";
 
 const GiftContent = styled.div`
   background: ${props => props.theme.white};
@@ -86,14 +85,6 @@ const CopyAndPaste = styled.span`
 `;
 
 export const Details: React.FC<GiftToPay> = ({ id, name, qrCode }) => {
-  const [isTransition, loadTransition] = useTransition();
-
-  function addKeyInClipboard() {
-    loadTransition(() => {
-      navigator.clipboard.writeText(qrCode);
-    })
-  }
-
   return (
     <GiftContent className="gift-container">
       <GiftName>{name}</GiftName>
@@ -101,15 +92,11 @@ export const Details: React.FC<GiftToPay> = ({ id, name, qrCode }) => {
       <QrCodeWrapper>
         <QRCode className="qrcode" value={qrCode} />
       </QrCodeWrapper>
-      <CopyAndPaste
-        onClick={addKeyInClipboard}
-      >
-        {isTransition
-          ?
-          <IoReloadOutline className="loader" />
-          :
-          <>Copie a chave pix para enviar o valor.</>
-        }
+      <CopyAndPaste>
+        <>
+          <Clipboard content={qrCode} />
+          Copie a chave pix para enviar o valor.
+        </>
       </CopyAndPaste>
     </GiftContent >
   );

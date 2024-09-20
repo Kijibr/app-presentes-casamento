@@ -22,6 +22,11 @@ export default createGlobalStyle`
   body{
     font-family: "Asap Condensed", Arial, sans-serif;
     font-size: 62.5%;
+    
+    .copy-icon {
+      cursor: pointer;
+      margin-right: 8px;
+    }
   } 
   ${mediaQueryUp.sm} {
     ::-webkit-scrollbar {
