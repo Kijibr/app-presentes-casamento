@@ -2,6 +2,7 @@ import styled from "styled-components";
 import QRCode from "react-qr-code";
 import { GiftToPay } from "src/types";
 import { Clipboard } from "src/components/Clipboard";
+import { formatCurrencyValue } from "src/utils/formatCurrency";
 
 const GiftContent = styled.div`
   background: ${props => props.theme.white};
@@ -11,10 +12,8 @@ const GiftContent = styled.div`
   align-items: center;
   justify-content: center;
   
-  width: 100%;
-  height: 100vh;
-  padding-top: -20%;
-  padding-bottom: 4px;
+  width: 80svw;
+  height: 88dvh;
   
   border: 1px #c8c8c8;
   border-radius: 8px;
@@ -22,7 +21,13 @@ const GiftContent = styled.div`
 
   overflow: hidden;
 
-  font-family: 'Gill Sans', sans-serif;
+  font-family: 'Asap Condesed', Arial, sans-serif;
+
+  caption {
+    font-size: 12px;
+    word-break: break-all;
+    padding: 0px 24px;
+  }
 `;
 
 const QrCodeWrapper = styled.div`
@@ -41,12 +46,21 @@ const QrCodeWrapper = styled.div`
   }
 `;
 
-const GiftName = styled.span`
-  margin: 4% 0;
-  width: 360px;
-  text-align: center;
+const Title = styled.h1`
+  font-weight: normal;
+  font-size: 24px;
+  margin-top: -48px;
+  margin-bottom: 42px;
+`;
 
+const GiftName = styled.span`
   font-size: 18px;
+  padding: 0 12px;
+  text-align: center;
+`;
+
+const GiftValue = styled(GiftName)`
+  font-size: 24px;
 `;
 
 const CopyAndPaste = styled.span`
@@ -57,7 +71,7 @@ const CopyAndPaste = styled.span`
   word-break: keep-all;
   
   border: 1px solid gray;
-  border-radius: 2px;
+  border-radius: 8px;
   background-color: ${props => props.theme.green};
   color: ${props => props.theme.white};
   
@@ -84,18 +98,20 @@ const CopyAndPaste = styled.span`
 
 `;
 
-export const Details: React.FC<GiftToPay> = ({ id, name, qrCode }) => {
+export const Details: React.FC<GiftToPay> = ({ id, name, qrCode, giftValue }) => {
   return (
     <GiftContent className="gift-container">
+      <Title>QR Code criado para o presente</Title>
       <GiftName>{name}</GiftName>
-      <caption>Abra a câmera do seu aplicativo bancário e aponte para o QR Code.</caption>
+      <GiftValue>{formatCurrencyValue(parseFloat(giftValue))}</GiftValue>
       <QrCodeWrapper>
         <QRCode className="qrcode" value={qrCode} />
       </QrCodeWrapper>
+      <caption>Abra a câmera do seu aplicativo bancário e aponte para o QR Code.</caption>
       <CopyAndPaste>
         <>
           <Clipboard content={qrCode} />
-          Copie a chave pix para enviar o valor.
+          Copie a chave pix.
         </>
       </CopyAndPaste>
     </GiftContent >

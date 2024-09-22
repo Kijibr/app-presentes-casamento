@@ -17,7 +17,7 @@ const Container = styled.div`
   transform: translate(-50%, -50%); 
 
   width: 36vw;
-  height: 64vh;
+  height: min-content;
   
   gap: 12px;
   
@@ -28,7 +28,7 @@ const Container = styled.div`
   align-items: center;
   
   background: ${props => props.theme.off_white};
-  border: 1px ${props => props.theme.light_gray} solid;
+
   border-radius: 8px;
 
   .payer{
