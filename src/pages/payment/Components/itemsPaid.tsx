@@ -1,3 +1,5 @@
+import { GiftToPay } from "src/types";
+import { formatCurrencyValue } from "src/utils/formatCurrency";
 import styled from "styled-components";
 
 export const Table = styled.table`
@@ -14,6 +16,7 @@ export const Table = styled.table`
 
   tbody > tr:hover {
     background-color: ${props => props.theme.off_white};
+    overflow-y: scroll;
   }
 `;
 
@@ -36,31 +39,9 @@ export const TableRow = styled.tr`
   }
 `;
 
-const itens = [
-  {
-    name: "Spotify",
-    value: 280.05
-  },
-  {
-    name: "Janar do casal",
-    value: 560.00
-  },
-  {
-    name: "Viagem para Gramado",
-    value: 9518.60
-  },
-  {
-    name: "6 meses de academia",
-    value: 1300.00
-  },
-];
-
 export const ItemsPaid: React.FC = () => {
-  const totalValue = itens.reduce((acc, gift) => { return acc + gift.value }, 0).toLocaleString(
-    'pt-BR',
-    { style: 'currency', currency: 'BRL' }
-  );
-  
+  const itemPaid = JSON.parse(sessionStorage.getItem("itemToPay")!) as GiftToPay;
+
   return (
     <Table>
       <HeaderTable>
@@ -71,20 +52,15 @@ export const ItemsPaid: React.FC = () => {
         </tr>
       </HeaderTable>
       <tbody>
-        {itens.map((pagamento, index) => (
-          <TableRow key={index + 1}>
-            <td>{index + 1}</td>
-            <td>{pagamento.name}</td>
-            <td>{pagamento.value.toLocaleString(
-              'pt-BR',
-              { style: 'currency', currency: 'BRL' }
-            )}</td>
-          </TableRow>
-        ))}
+        <TableRow>
+          <td>1</td>
+          <td>{itemPaid.name}</td>
+          <td>{formatCurrencyValue(parseFloat(itemPaid.giftValue))}</td>
+        </TableRow>
         <TableRow>
           <td>TOTAL:</td>
           <td></td>
-          <td>{totalValue}</td>
+          <td>{formatCurrencyValue(parseFloat(itemPaid.giftValue))}</td>
         </TableRow>
       </tbody>
     </Table>

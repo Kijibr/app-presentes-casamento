@@ -91,7 +91,7 @@ export const Invoice = () => {
             PARA:
             <Divider />
             <PayerInfo>
-              Nome: Maria B.
+              Nome: Igor e Maria.
             </PayerInfo>
           </PayerDetails>
             <ItemsPaid />
