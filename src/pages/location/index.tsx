@@ -21,8 +21,7 @@ export const Location = () => {
         <AddressSection>
           <AddressText>
             <p>
-              <Clipboard content={address} />
-              ENDEREÇO: {address}
+              <Clipboard content={address} label={`ENDEREÇO: ${address}`}/>
             </p>
             <p>
               REFERÊNCIA: {reference}

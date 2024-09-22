@@ -20,14 +20,12 @@ export default createGlobalStyle`
   }
 
   body{
-    font-family: "Asap Condensed", Arial, sans-serif;
+    font-family: "Asap Condensed", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     font-size: 62.5%;
-    
-    .copy-icon {
-      cursor: pointer;
-      margin-right: 8px;
-    }
   } 
+
   ${mediaQueryUp.sm} {
     ::-webkit-scrollbar {
       width: 8px;
