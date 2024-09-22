@@ -1,11 +1,16 @@
 import styled from "styled-components";
 
-import logo from 'src/assets/logo_nossa.png'
+import { mediaQueryDown, mediaQueryUp } from "src/styles/breakPoints";
 
 const Header = styled.div`
   display: flex;
   width: 100%;
-  height: 70vh;
+
+  height: 70dvh;
+  
+  ${mediaQueryUp.sm} {
+    height: 60dvh;
+  }
 
   justify-content: center;
   align-items: center;
@@ -22,6 +27,16 @@ const Header = styled.div`
     animation: fade 2s forwards;
     opacity: 0;
     
+    img { 
+      ${mediaQueryUp.sm} {
+        height: 60dvh;
+      }
+      
+      ${mediaQueryDown.xs} {
+        height: 55dvh;
+      }
+    }
+
     @keyframes fade {
       0% {
         opacity: 0;
@@ -37,17 +52,15 @@ const Header = styled.div`
 `;
 
 const Title = styled.span`
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: 'Questrial';
   font-size: 36px;
 
   padding-top: 24px;
 `;
 
 const Subtitle = styled(Title)`
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-size: 24px;
   align-self: center;
-  padding-top: 24px;
 
   z-index: 1;
 `;
@@ -60,7 +73,7 @@ const OptionsWrapper = styled.div`
   overflow: hidden;
   align-items: center;
   
-  margin-top: 24px;
+  margin-top: 4%;
   padding: 24px;
   gap: 32px;
 
@@ -107,4 +120,4 @@ const Options = styled.div`
 `;
 
 
-export { Header, Title, OptionsWrapper, Options, Subtitle };
+export { Header, OptionsWrapper, Options, Subtitle };

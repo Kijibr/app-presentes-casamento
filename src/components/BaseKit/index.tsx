@@ -56,7 +56,9 @@ async function readToken(userId: string) {
   }
 }
 
-const returnToHome = (navigation: NavigateFunction): void => navigation("/home");
+const homePageRoute = "/home"; 
+
+const returnToHome = (navigation: NavigateFunction): void => navigation(homePageRoute);
 
 function resetUrl() {
   const newUrl = location.href.replace(location.search, "");
@@ -101,8 +103,12 @@ export default function Root() {
 
   }, [identified]);
 
+  const currentRoute = location?.pathname?.substring(1);
+  const canShowHomeButton = currentRoute !== homePageRoute.substring(1);
+
   return (
     <Container id="base-div">
+      {canShowHomeButton ? (
       <div
         className="back_icon_wrapper"
         onClick={() => returnToHome(navigation)}
@@ -113,6 +119,7 @@ export default function Root() {
           onClick={clearGift}
         />
       </div>
+      ) : null}
       <ConfirmationUser
         id={id}
         name={name}

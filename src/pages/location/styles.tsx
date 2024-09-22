@@ -1,3 +1,4 @@
+import { mediaQueryDown } from "src/styles/breakPoints";
 import styled from "styled-components";
 
 const locationBackground: string = "https://cdn0.casamentos.com.br/vendor/8337/original/1280/jpeg/whatsapp-image-2022-11-10-at-15-34-31-1_13_138337-166810548944151.webp";
@@ -37,6 +38,10 @@ const Title = styled.span`
   font-family: 'Questrial';
   font-size: 36px;
   text-align: center;
+
+  ${mediaQueryDown.xs} {
+    font-size: 24px;
+  }
 
   background-color: ${props => props.theme.white};
   color: ${props => props.theme.green};
