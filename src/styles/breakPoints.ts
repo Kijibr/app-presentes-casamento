@@ -1,5 +1,6 @@
 export const breakpointSizes = {
   xxs: { min: 1, max: 319.98 },
+  xxs_2: { min: 319.98, max: 379.98 },
   xs: { min: 320, max: 743.98 },
   sm: { min: 744, max: 1279.98 },
   md: { min: 1280, max: 1511.98 },

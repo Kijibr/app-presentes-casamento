@@ -56,7 +56,9 @@ async function readToken(userId: string) {
   }
 }
 
-const homePageRoute = "/home"; 
+const routesToHideHomeButton = ["home"];
+
+const homePageRoute = "/home";
 
 const returnToHome = (navigation: NavigateFunction): void => navigation(homePageRoute);
 
@@ -104,21 +106,21 @@ export default function Root() {
   }, [identified]);
 
   const currentRoute = location?.pathname?.substring(1);
-  const canShowHomeButton = currentRoute !== homePageRoute.substring(1);
+  const canShowHomeButton = !routesToHideHomeButton.includes(currentRoute);
 
   return (
     <Container id="base-div">
       {canShowHomeButton ? (
-      <div
-        className="back_icon_wrapper"
-        onClick={() => returnToHome(navigation)}
-      >
-        <FiHome
-          size={30}
-          className="back_icon"
-          onClick={clearGift}
-        />
-      </div>
+        <div
+          className="back_icon_wrapper"
+          onClick={() => returnToHome(navigation)}
+        >
+          <FiHome
+            size={30}
+            className="back_icon"
+            onClick={clearGift}
+          />
+        </div>
       ) : null}
       <ConfirmationUser
         id={id}

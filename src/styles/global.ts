@@ -24,6 +24,7 @@ export default createGlobalStyle`
     font-weight: 400;
     font-style: normal;
     font-size: 62.5%;
+    background: ${props => props.theme.light_white};
   } 
 
   ${mediaQueryUp.sm} {

@@ -8,9 +8,10 @@ const Themes = {
 
   gold: "#e0ae42",
   
-  light_white: "#f3f3f3",
+  light_white: "#f2f2f2",
   off_white: "#F8F8F8",
   white: "#F6F6F6",
+  default_white: "#FFF",
   
   light_gray: "#ccc",
   gray: "#909090",
