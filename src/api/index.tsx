@@ -25,9 +25,9 @@ export const createPaymentAsync = async (gift: GiftType, payer: string) => {
   }
 }
 
-export const getPaymentUpdate = async (paymentId: number) => {
+export const getPaymentUpdate = async (id: string) => {
   try {
-    const request = await api.get(`/payment/${paymentId}`)
+    const request = await api.get(`/payment/${id}`)
     if (request.status === 200)
       return request.data;
   } catch (err) {
