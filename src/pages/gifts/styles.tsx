@@ -132,7 +132,7 @@ const SendGiftButton = styled.span`
   transition: all 0.5s;
 `;
 
-const PaymentOptions = styled.div<{ showContent: boolean }>`
+const PaymentOptionsContainer = styled.div<{ showContent: boolean }>`
   display: flex;
   overflow: ${props => props.showContent ? 'visible' : 'hidden'};
 
@@ -148,7 +148,7 @@ const PaymentOptions = styled.div<{ showContent: boolean }>`
   width: 100vw;
   height: ${props => props.showContent ? '156px' : '0'};;
   max-height: 156px;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s ease-in-out;
   gap: 8px;
 
   background-color: ${props => props.theme.off_white};
@@ -159,7 +159,7 @@ const PaymentOptions = styled.div<{ showContent: boolean }>`
   & > * {
     opacity: ${props => props.showContent ? 1 : 0};
     transform: translateY(${props => props.showContent ? '0' : '20px'});
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
   }
   caption {
     overflow: ${props => props.showContent ? 'visible' : 'hidden'};
@@ -168,4 +168,4 @@ const PaymentOptions = styled.div<{ showContent: boolean }>`
   }
 `;
 
-export { Content, WrapperItems, GiftBox, SendGiftButton, PaymentOptions };
+export { Content, WrapperItems, GiftBox, SendGiftButton, PaymentOptionsContainer };

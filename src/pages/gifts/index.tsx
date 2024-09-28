@@ -1,4 +1,4 @@
-import { Content, PaymentOptions, SendGiftButton, WrapperItems } from "./styles";
+import { Content, WrapperItems } from "./styles";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { usePaymentContext } from "../../context/payment";
 import { createPaymentAsync } from "src/api";
@@ -7,8 +7,8 @@ import React, { memo, useRef, useState } from "react";
 import { getFromStorage } from "src/utils/storage";
 import { UserInfoType } from "src/components/BaseKit";
 import { GiftCard } from "./Components/cards";
-import { CircularProgress } from "@mui/material";
 import { useGiftHook } from "./giftsHook";
+import { PaymentOptions } from "./Components/paymentOptions";
 
 enum PaymentMethods {
   Pix,
@@ -25,11 +25,11 @@ export const GiftsPage: React.FC = memo(() => {
   const [loadingGiftButton, setLoading] = useState<string | null>(null);
   const [showPaymentOptions, setShowPaymentOptionsState] = useState<boolean>(false);
 
-  const giftSelected = useRef<GiftType | null>(null);
+  const giftSelectedRef = useRef<GiftType | null>(null);
   const paymentMethodRef = useRef<PaymentMethods>();
 
   function togglePaymentOptions(value: boolean, item?: GiftType) {
-    giftSelected.current = item!;
+    giftSelectedRef.current = item!;
     setShowPaymentOptionsState(value);
   }
 
@@ -57,7 +57,7 @@ export const GiftsPage: React.FC = memo(() => {
     }
   };
 
-  const enableLoading = loadingGiftButton === giftSelected.current?.id;
+  const enableLoading = loadingGiftButton === giftSelectedRef.current?.id;
   return (
     <Content>
       <WrapperItems onClick={hidePaymentOptions}>
@@ -68,32 +68,12 @@ export const GiftsPage: React.FC = memo(() => {
           />
         )}
       </WrapperItems>
-
-      <PaymentOptions showContent={showPaymentOptions}>
-        <caption>Selecione a forma de pagamento</caption>
-        <SendGiftButton
-          onClick={() => redirectToPayment(navigate, giftSelected.current!, PaymentMethods.Pix)}
-          className="payment-options"
-        >
-          {enableLoading && paymentMethodRef.current == PaymentMethods.Pix
-            ?
-            <CircularProgress color="inherit" size={16} />
-            :
-            <span>PIX</span>
-          }
-        </SendGiftButton>
-        <SendGiftButton
-          onClick={() => redirectToPayment(navigate, giftSelected.current!, PaymentMethods.CreditCard)}
-          className="payment-options"
-        >
-          {enableLoading && paymentMethodRef.current == PaymentMethods.CreditCard
-            ?
-            <CircularProgress color="inherit" size={16} />
-            :
-            <span>Cartão de crédito</span>
-          }
-        </SendGiftButton>
-      </PaymentOptions>
+      <PaymentOptions
+        enablePixLoading={enableLoading && paymentMethodRef.current == PaymentMethods.Pix}
+        enableCreditCardLoading={enableLoading && paymentMethodRef.current == PaymentMethods.CreditCard}
+        redirectToPayment={() => redirectToPayment(navigate, giftSelectedRef.current!, paymentMethodRef.current!)}
+        showPaymentOptions={showPaymentOptions}
+      />
     </Content>
   );
 });
