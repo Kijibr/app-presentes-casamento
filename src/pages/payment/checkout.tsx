@@ -1,10 +1,6 @@
 import styled from "styled-components";
 import { Details } from "./Components/giftDetails";
-import { useForm } from "react-hook-form";
-import Divider from "src/components/BaseKit/Divider";
-import { PaymentType } from "src/types";
 import { usePaymentHook } from "./paymentsHook";
-import CheckmarkAnimation from "src/assets/checkmarkAnimation";
 import { Invoice } from "./Components/invoice";
 
 const Container = styled.div`
@@ -73,11 +69,8 @@ const Button = styled.button`
 `;
 
 export const CheckoutPage = () => {
-  const { details, isPayed, payItem } = usePaymentHook();
-
-  const { register, watch } = useForm<PaymentType>();
-  const payer = watch('name') ?? '';
-
+  const { details, isPayed } = usePaymentHook();
+  
   return (
     <>
       {isPayed ?

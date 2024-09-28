@@ -8,7 +8,7 @@ interface ProviderProps {
 }
 
 const baseGiftState: GiftToPay = {
-  paymentId: 0,
+  paymentId: "",
   id: "",
   giftValue: "0.0",
   name: "",
@@ -27,6 +27,7 @@ const setGiftToPay = async (giftOwner: string) => {
 export const PaymentProvider: React.FC<ProviderProps> = ({ children }) => {
   const [gift, setGift] = useState<GiftToPay>(baseGiftState);
   const saveGift = (gift: GiftToPay) => {
+    sessionStorage.removeItem('itemToPay');
     setGift(gift);
     sessionStorage.setItem('itemToPay', JSON.stringify(gift));
   }

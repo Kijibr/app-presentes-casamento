@@ -105,6 +105,9 @@ const SendGiftButton = styled.span`
   cursor: pointer;
 
   width: 78px;
+  &.payment-options {
+    width: 180px;
+  }
   height: 32px;
   text-align: center;
   
@@ -129,4 +132,40 @@ const SendGiftButton = styled.span`
   transition: all 0.5s;
 `;
 
-export { Content, WrapperItems, GiftBox, SendGiftButton };
+const PaymentOptions = styled.div<{ showContent: boolean }>`
+  display: flex;
+  overflow: ${props => props.showContent ? 'visible' : 'hidden'};
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  
+  width: 100vw;
+  height: ${props => props.showContent ? '156px' : '0'};;
+  max-height: 156px;
+  transition: all 0.3s ease-in-out;
+  gap: 8px;
+
+  background-color: ${props => props.theme.off_white};
+  box-shadow: 0px -1px 40px 3px rgba(173,171,173,1);
+  border-radius: 24px 24px 0px 0px;
+  
+  // Styles to show title after open payment options with transition
+  & > * {
+    opacity: ${props => props.showContent ? 1 : 0};
+    transform: translateY(${props => props.showContent ? '0' : '20px'});
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+  caption {
+    overflow: ${props => props.showContent ? 'visible' : 'hidden'};
+    margin-bottom: 24px;
+    font-size: 18px;
+  }
+`;
+
+export { Content, WrapperItems, GiftBox, SendGiftButton, PaymentOptions };

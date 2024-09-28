@@ -15,7 +15,6 @@ export const createPaymentAsync = async (gift: GiftType, payer: string) => {
       email: import.meta.env.VITE_EMAIL_PAYER,
       identificationType: "123321",
       payerName: payer,
-      // number: "21941233214"
     });
 
     if (request.status === 200)

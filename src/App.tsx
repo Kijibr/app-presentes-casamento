@@ -27,7 +27,7 @@ const router = createBrowserRouter([
         element: <GiftsPage />
       },
       {
-        path: "gifts/payment",
+        path: "gifts/payment/:id",
         element: <CheckoutPage />
       },
       {

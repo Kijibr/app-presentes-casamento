@@ -66,7 +66,7 @@ const GiftInfoWrapper = styled.section`
     caption {
       width: fit-content;
       font-size: 0.800rem;
-      text-align: left;
+      align-self: center;
       padding: 0px 12px;
     }
   }
