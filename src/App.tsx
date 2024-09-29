@@ -12,6 +12,7 @@ import { PaymentProvider } from "./context/provider/payment";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import isPropValid from '@emotion/is-prop-valid'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const router = createBrowserRouter([
   {
@@ -46,18 +47,22 @@ const router = createBrowserRouter([
   }
 ]);
 
+const queryClient = new QueryClient()
+
 function App() {
   return (
     <div>
       <ThemeProvider theme={Themes}>
-        <Provider store={store}>
-          <PaymentProvider>
-            <StyleSheetManager shouldForwardProp={isPropValid}>
-              <GlobalStyle />
-              <RouterProvider router={router} />
-            </StyleSheetManager>
-          </PaymentProvider>
-        </Provider>
+        <QueryClientProvider client={queryClient}>
+          <Provider store={store}>
+            <PaymentProvider>
+              <StyleSheetManager shouldForwardProp={isPropValid}>
+                <GlobalStyle />
+                <RouterProvider router={router} />
+              </StyleSheetManager>
+            </PaymentProvider>
+          </Provider>
+        </QueryClientProvider>
       </ThemeProvider>
     </div>
   );

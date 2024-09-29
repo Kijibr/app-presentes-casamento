@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { getAllgifts } from "src/api/gifts";
-import { GiftType } from "src/types";
 
 export const useGiftHook = () => {
-  const [giftsList, setGifts] = useState<GiftType[]>();
+  const { data: giftsList, isFetching } = useQuery({
+    queryKey: ['gifts-list'],
+    queryFn: async () => await getAllgifts(),
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: true,
+    placeholderData: keepPreviousData,
+  });
 
-  useEffect(() => {
-    (async () => {
-      const items = await getAllgifts();
-      setGifts(items);
-    })();
-  }, [])
   return {
-    giftsList
+    giftsList,
+    isFetching
   }
 }
