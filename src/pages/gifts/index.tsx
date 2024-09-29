@@ -71,7 +71,8 @@ export const GiftsPage: React.FC = memo(() => {
       <PaymentOptions
         enablePixLoading={enableLoading && paymentMethodRef.current == PaymentMethods.Pix}
         enableCreditCardLoading={enableLoading && paymentMethodRef.current == PaymentMethods.CreditCard}
-        redirectToPayment={() => redirectToPayment(navigate, giftSelectedRef.current!, paymentMethodRef.current!)}
+        redirectToPixPayment={() => redirectToPayment(navigate, giftSelectedRef.current!, PaymentMethods.Pix)}
+        redirectToCreditCardPayment={() => redirectToPayment(navigate, giftSelectedRef.current!, PaymentMethods.CreditCard)}
         showPaymentOptions={showPaymentOptions}
       />
     </Content>

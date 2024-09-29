@@ -6,20 +6,22 @@ interface PaymentOptionsProps {
   enablePixLoading: boolean;
   enableCreditCardLoading: boolean;
   showPaymentOptions: boolean;
-  redirectToPayment: () => void;
+  redirectToPixPayment: () => void;
+  redirectToCreditCardPayment: () => void;
 }
 
 export const PaymentOptions: React.FC<PaymentOptionsProps> = memo(({
   enablePixLoading,
   enableCreditCardLoading,
   showPaymentOptions,
-  redirectToPayment
+  redirectToPixPayment,
+  redirectToCreditCardPayment
 }) => {
   return (
     <PaymentOptionsContainer showContent={showPaymentOptions}>
       <caption>Selecione a forma de pagamento</caption>
       <SendGiftButton
-        onClick={redirectToPayment}
+        onClick={redirectToPixPayment}
         className="payment-options"
       >
         {enablePixLoading
@@ -30,8 +32,7 @@ export const PaymentOptions: React.FC<PaymentOptionsProps> = memo(({
         }
       </SendGiftButton>
       <SendGiftButton
-        onClick={redirectToPayment}
-        className="payment-options"
+        className="payment-options disabled"
       >
         {enableCreditCardLoading
           ?

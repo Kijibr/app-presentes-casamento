@@ -108,6 +108,10 @@ const SendGiftButton = styled.span`
   &.payment-options {
     width: 180px;
   }
+  &.disabled {
+    background-color: ${props => props.theme.gray};
+    cursor: not-allowed;
+  }
   height: 32px;
   text-align: center;
   
