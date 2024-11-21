@@ -1,7 +1,7 @@
 import { Content, WrapperItems } from "./styles";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { usePaymentContext } from "../../context/payment";
-import { createPaymentAsync } from "src/api";
+import { createPixPaymentAsync } from "src/api";
 import { GiftToPay, GiftType } from "src/types";
 import React, { memo, useRef, useState } from "react";
 import { getFromStorage } from "src/utils/storage";
@@ -10,7 +10,7 @@ import { GiftCard } from "./Components/cards";
 import { useGiftHook } from "./giftsHook";
 import { PaymentOptions } from "./Components/paymentOptions";
 
-enum PaymentMethods {
+export enum PaymentMethods {
   Pix,
   CreditCard
 }
@@ -41,19 +41,35 @@ export const GiftsPage: React.FC = memo(() => {
     const currentUser = getFromStorage<UserInfoType>('userInfo');
 
     if (paymentMethod === PaymentMethods.Pix) {
-      const generatePayment = await createPaymentAsync(item, currentUser.name);
+      const generatePayment = await createPixPaymentAsync(item, currentUser.name);
 
-      const giftToPay: GiftToPay = {
+      const giftToPayWithPix: GiftToPay = {
         id: item.id,
         paymentId: generatePayment.id,
         giftValue: item.giftValue,
         name: item.name,
-        qrCode: generatePayment.qr_code
+        qrCode: generatePayment.qr_code,
+        paymentMethod: paymentMethod
       };
 
-      setGiftDetails(giftToPay);
+      setGiftDetails(giftToPayWithPix);
       setLoading(null);
-      navigate(`${paymentPath}/${giftToPay.paymentId}`);
+      redirect(giftToPayWithPix.id);
+    }
+    else {
+      const giftToPayWithCC: GiftToPay = {
+        id: item.id,
+        giftValue: item.giftValue,
+        name: item.name,
+        paymentMethod: paymentMethod
+      };
+      setGiftDetails(giftToPayWithCC);
+      setLoading(null);
+      redirect(giftToPayWithCC.id);
+    }
+
+    function redirect(paymentId: string) {
+      navigate(`${paymentPath}/${paymentId}`);
     }
   };
 

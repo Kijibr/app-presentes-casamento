@@ -32,10 +32,10 @@ export const usePaymentHook = () => {
   useEffect(() => {
     if (giftFromStorage) {
       const paymentInfo = JSON.parse(giftFromStorage) as GiftToPay;
-      if (!isPayed) {
+      if (!isPayed && paymentInfo.paymentId!) {
         intervalRef.current = setInterval(async () => {
           try {
-            const paymentStatus = await getPaymentUpdate(paymentInfo.paymentId);
+            const paymentStatus = await getPaymentUpdate(paymentInfo.paymentId!);
             const isSuccess = paymentStatus === "approved";
             if (isSuccess) {
               setIsPayed(true);
@@ -48,7 +48,7 @@ export const usePaymentHook = () => {
         }, 5000)
       }
     }
-  }, [details])
+  }, [giftFromStorage])
 
   function payItem(payer: string) {
     payGift(payer);

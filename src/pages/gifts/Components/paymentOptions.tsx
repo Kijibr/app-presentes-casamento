@@ -32,7 +32,8 @@ export const PaymentOptions: React.FC<PaymentOptionsProps> = memo(({
         }
       </SendGiftButton>
       <SendGiftButton
-        className="payment-options disabled"
+        className="payment-options"
+        onClick={redirectToCreditCardPayment}
       >
         {enableCreditCardLoading
           ?

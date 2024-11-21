@@ -1,21 +1,54 @@
+import { ICardPaymentBrickPayer, ICardPaymentFormData } from '@mercadopago/sdk-react/bricks/cardPayment/type';
 import axios from 'axios';
 import { GiftType } from 'src/types';
 const url = import.meta.env.VITE_API_URL || process.env.VITE_API_URL || "not found";
+
 export const api = axios.create({
   baseURL: url
 })
 
-export const createPaymentAsync = async (gift: GiftType, payer: string) => {
+export const createPixPaymentAsync = async (gift: GiftType, payer: string) => {
   try {
     const request = await api.post('/payment/pix', {
       giftId: gift.id,
       giftName: gift.name,
-      transaction_amount: parseInt(gift.giftValue),
+      transaction_amount: parseFloat(gift.giftValue),
       description: gift.name,
       email: import.meta.env.VITE_EMAIL_PAYER,
-      identificationType: "123321",
       payerName: payer,
     });
+
+    if (request.status === 200)
+      return request.data;
+  } catch (err) {
+    throw new Error('error in request: ' + err);
+  }
+}
+
+export const createCreditCardPaymentAsync = async (gift: GiftType, payer: string, cardPayload: ICardPaymentFormData<ICardPaymentBrickPayer>) => {
+  try {
+    const splittedName = payer?.split(" ");
+    const body = {
+      giftId: gift.id,
+      giftName: gift.name,
+      description: gift.name,
+      token: cardPayload.token,
+      issuer_id: Number(cardPayload.issuer_id),
+      payment_method_id: cardPayload.payment_method_id,
+      transaction_amount: cardPayload.transaction_amount,
+      installments: cardPayload.installments,
+      payer: {
+        email: cardPayload.payer.email,
+        identification: cardPayload.payer.identification,
+      },
+      payerName: payer,
+      first_name: splittedName[0]!,
+      last_name: splittedName[1]!,
+      statement_descriptor: "MERCADO_PAGO",
+      external_reference: gift.id,
+    }
+
+    const request = await api.post('/payment/creditCard/process', body);
 
     if (request.status === 200)
       return request.data;

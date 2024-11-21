@@ -90,7 +90,7 @@ const GiftValue = styled(GiftName)`
   color: ${props => props.theme.light_green};
 `;
 
-export const Details: React.FC<GiftToPay> = ({ id, name, qrCode, giftValue }) => {
+export const Details: React.FC<GiftToPay> = ({ id, name, qrCode = "", giftValue }) => {
   return (
     <GiftContent className="gift-container">
       <Title>Pagamento PIX</Title>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { PaymentContext } from "../payment";
 import { GiftToPay } from "src/types";
-import { createPaymentAsync } from "src/api";
+import { createPixPaymentAsync } from "src/api";
 
 interface ProviderProps {
   children: React.ReactNode;
@@ -20,7 +20,7 @@ const setGiftToPay = async (giftOwner: string) => {
   const giftFromStorage = sessionStorage.getItem('itemToPay');
   if (giftFromStorage) {
     const selectedGift = JSON.parse(giftFromStorage) as GiftToPay;
-    await createPaymentAsync(selectedGift, giftOwner);
+    await createPixPaymentAsync(selectedGift, giftOwner);
   }
 }
 

@@ -1,3 +1,5 @@
+import { PaymentMethods } from "src/pages/gifts"
+
 type BaseType = {
   id: string,
   createdAt?: string,
@@ -18,10 +20,11 @@ export type PaymentType = BaseType & {
 }
 
 export type GiftToPay = {
-  paymentId: string,
   id: string,
+  paymentId?: string,
   name: string,
   giftValue: string,
   image?: string,
-  qrCode: string,
+  qrCode?: string,
+  paymentMethod?: PaymentMethods
 }

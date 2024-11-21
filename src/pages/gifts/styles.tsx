@@ -109,6 +109,9 @@ const SendGiftButton = styled.span`
     width: 180px;
   }
   &.disabled {
+    &:hover {
+      background-color: ${props => props.theme.gray};
+    }
     background-color: ${props => props.theme.gray};
     cursor: not-allowed;
   }
