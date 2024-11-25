@@ -4,10 +4,7 @@ import { usePaymentHook } from "./paymentsHook";
 import { Invoice } from "./Components/invoice";
 import { initMercadoPago } from '@mercadopago/sdk-react'
 
-import { IAdditionalData, ICardPaymentBrickPayer, ICardPaymentFormData } from "@mercadopago/sdk-react/bricks/cardPayment/type";
-import { getFromStorage } from "src/utils/storage";
-import { UserInfoType } from "src/components/BaseKit";
-import CartaoCreditoVideo from "./Components/creditCard";
+import CreditCardForm from "./Components/creditCard";
 import { PaymentMethods } from "../gifts";
 
 const Container = styled.div`
@@ -89,12 +86,8 @@ export const CheckoutPage = () => {
         : (
           <Container>
             <>
-              {details.paymentMethod === PaymentMethods.Pix
-                ?
-                <Details {...details} />
-                :
-                <CartaoCreditoVideo />
-              }
+              {details.paymentMethod === PaymentMethods.Pix && <Details {...details} />}
+              {details.paymentMethod === PaymentMethods.CreditCard && <CreditCardForm />}
             </>
           </Container>
         )}

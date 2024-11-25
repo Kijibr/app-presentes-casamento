@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { initMercadoPago, CardPayment } from '@mercadopago/sdk-react';
 
@@ -12,6 +12,7 @@ import { usePaymentContext } from 'src/context/payment';
 import { GiftToPay } from 'src/types';
 
 const FormContainer = styled.div`
+  overflow: auto;
   max-width: 400px;
   margin: 2rem auto;
   padding: 2rem;
@@ -96,7 +97,7 @@ const CreditCardForm = () => {
       giftValue: details.giftValue,
       name: details.name,
       paymentMethod: details.paymentMethod
-    };
+    }; 
 
     setGiftDetails(giftToPayWithCC);
   };
@@ -106,7 +107,7 @@ const CreditCardForm = () => {
   };
 
   const onReady = () => {
-    console.log('Formulário pronto');
+    console.log('Credit Card form its ok');
   };
 
   return (

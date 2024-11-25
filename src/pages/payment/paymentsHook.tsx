@@ -43,12 +43,12 @@ export const usePaymentHook = () => {
             }
           }
           catch (err) {
-            console.log("internal error to find payment: ", paymentInfo.paymentId);
+            console.error("Internal error to find payment: ", paymentInfo.paymentId);
           }
         }, 5000)
       }
     }
-  }, [giftFromStorage])
+  }, [giftFromStorage, isPayed])
 
   function payItem(payer: string) {
     payGift(payer);
