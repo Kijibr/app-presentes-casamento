@@ -11,6 +11,9 @@ import { ICardPaymentBrickPayer, ICardPaymentFormData } from '@mercadopago/sdk-r
 import { usePaymentContext } from 'src/context/payment';
 import { GiftToPay } from 'src/types';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const FormContainer = styled.div`
   overflow: auto;
   max-width: 400px;
@@ -52,6 +55,13 @@ const InfoText = styled.p`
   margin-top: 1rem;
 `;
 
+function showToast(message: string) {
+  toast(message, {
+    theme: "light",
+    type: "error"
+  });
+}
+
 const CreditCardForm = () => {
   const [deviceId, setDeviceId] = useState('');
 
@@ -73,7 +83,7 @@ const CreditCardForm = () => {
 
       script.onload = () => {
         const mpToken: string = import.meta.env.VITE_MP_ACCESS_KEY_DEV;
-        initMercadoPago(mpToken, { locale: 'pt-BR', trackingDisabled: true,advancedFraudPrevention: true });
+        initMercadoPago(mpToken, { locale: 'pt-BR', trackingDisabled: true, advancedFraudPrevention: true });
         setDeviceId(uuidv4());
       };
     };
@@ -91,6 +101,10 @@ const CreditCardForm = () => {
   const onSubmit = async (param: ICardPaymentFormData<ICardPaymentBrickPayer>) => {
     const currentUser = getFromStorage<UserInfoType>('userInfo')
     const result = await createCreditCardPaymentAsync(details, currentUser.name, param);
+    if (!result) {
+      showToast("Ocorreu algum erro ao processar o pagamento.");
+    }
+
     removeAtStorage("itemToPay");
     const giftToPayWithCC: GiftToPay = {
       id: details.id,
@@ -98,14 +112,16 @@ const CreditCardForm = () => {
       giftValue: details.giftValue,
       name: details.name,
       paymentMethod: details.paymentMethod
-    }; 
-
+    };
     setGiftDetails(giftToPayWithCC);
-    redirectToPaymentInvoice(result.id);
+
+    if (result)
+      redirectToPaymentInvoice(result.id);
+
   };
 
   const onError = async (error: any) => {
-    console.error('Erro no formulário:', error);
+    console.error('Erro no formulário');
   };
 
   const onReady = () => {
@@ -113,17 +129,20 @@ const CreditCardForm = () => {
   };
 
   return (
-    <FormContainer>
-      <Title>Informações do Cartão</Title>
-      <CardPayment
-        initialization={initialization}
-        onSubmit={onSubmit}
-        onReady={onReady}
-        onError={onError}
-        locale='pt-BR'
-      />
-      <InfoText>Device ID: {deviceId}</InfoText>
-    </FormContainer>
+    <>
+      <ToastContainer />
+      <FormContainer>
+        <Title>Informações do Cartão</Title>
+        <CardPayment
+          initialization={initialization}
+          onSubmit={onSubmit}
+          onReady={onReady}
+          onError={onError}
+          locale='pt-BR'
+        />
+        <InfoText>Device ID: {deviceId}</InfoText>
+      </FormContainer>
+    </>
   );
 };
 

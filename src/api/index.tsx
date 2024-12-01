@@ -21,7 +21,7 @@ export const createPixPaymentAsync = async (gift: GiftType, payer: string) => {
     if (request.status === 200)
       return request.data;
   } catch (err) {
-    throw new Error('error in request: ' + err);
+    console.error('error on request: ' + err);
   }
 }
 
@@ -53,7 +53,8 @@ export const createCreditCardPaymentAsync = async (gift: GiftType, payer: string
     if (request.status === 200)
       return request.data;
   } catch (err) {
-    throw new Error('error in request: ' + err);
+    console.error('error on request: ' + err);
+    return;
   }
 }
 
@@ -63,6 +64,6 @@ export const getPaymentUpdate = async (id: string) => {
     if (request.status === 200)
       return request.data;
   } catch (err) {
-    throw new Error('error in request: ' + err);
+    console.error('error on request: ' + err);
   }
 }
