@@ -13,6 +13,7 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 import isPropValid from '@emotion/is-prop-valid'
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Invoice } from "./pages/payment/Components/invoice";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "gifts/payment/:id",
         element: <CheckoutPage />
+      },
+      {
+        path: "gifts/payment/invoice/:id",
+        element: <Invoice />
       },
       {
         path: "Tips",

@@ -4,6 +4,9 @@ import { GiftToPay } from "src/types";
 import { Clipboard } from "src/components/Clipboard";
 import { formatCurrencyValue } from "src/utils/formatCurrency";
 import Divider from "src/components/BaseKit/Divider";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRedirectHook } from "../paymentsHook";
 
 const GiftContent = styled.div`  
   display: flex;
@@ -90,7 +93,14 @@ const GiftValue = styled(GiftName)`
   color: ${props => props.theme.light_green};
 `;
 
-export const Details: React.FC<GiftToPay> = ({ id, name, qrCode = "", giftValue }) => {
+export const Details: React.FC<GiftToPay> = ({ id, name, qrCode = "", giftValue, paymentId, isPaid }) => {
+  const { redirectToPaymentInvoice} = useRedirectHook();
+
+  useEffect(() => {
+    if (paymentId && isPaid)
+      redirectToPaymentInvoice(paymentId);
+  }, [isPaid]);
+
   return (
     <GiftContent className="gift-container">
       <Title>Pagamento PIX</Title>

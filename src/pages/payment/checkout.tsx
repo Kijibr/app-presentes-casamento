@@ -74,23 +74,19 @@ const Button = styled.button`
 `;
 
 const mpToken: string = import.meta.env.VITE_MP_ACCESS_KEY_DEV;
-initMercadoPago(mpToken, { locale: 'pt-BR' });
+initMercadoPago(mpToken, { locale: 'pt-BR', trackingDisabled: true, advancedFraudPrevention: true });
 
 export const CheckoutPage = () => {
-  const { details, isPayed } = usePaymentHook();
+  const { details, isPaid } = usePaymentHook();
 
   return (
     <>
-      {isPayed ?
-        <Invoice />
-        : (
-          <Container>
-            <>
-              {details.paymentMethod === PaymentMethods.Pix && <Details {...details} />}
-              {details.paymentMethod === PaymentMethods.CreditCard && <CreditCardForm />}
-            </>
-          </Container>
-        )}
+      <Container>
+        <>
+          {details.paymentMethod === PaymentMethods.Pix && <Details {...details} isPaid={isPaid} />}
+          {details.paymentMethod === PaymentMethods.CreditCard && <CreditCardForm />}
+        </>
+      </Container>
     </>
   )
 }

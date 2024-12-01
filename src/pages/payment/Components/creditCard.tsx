@@ -55,7 +55,7 @@ const InfoText = styled.p`
 const CreditCardForm = () => {
   const [deviceId, setDeviceId] = useState('');
 
-  const { details, isPayed } = usePaymentHook();
+  const { details } = usePaymentHook();
   const { setGiftDetails } = usePaymentContext();
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const CreditCardForm = () => {
 
       script.onload = () => {
         const mpToken: string = import.meta.env.VITE_MP_ACCESS_KEY_DEV;
-        initMercadoPago(mpToken, { locale: 'pt-BR' });
+        initMercadoPago(mpToken, { locale: 'pt-BR', trackingDisabled: true,advancedFraudPrevention: true });
         setDeviceId(uuidv4());
       };
     };
@@ -100,6 +100,7 @@ const CreditCardForm = () => {
     }; 
 
     setGiftDetails(giftToPayWithCC);
+    
   };
 
   const onError = async (error: any) => {
@@ -115,13 +116,6 @@ const CreditCardForm = () => {
       <Title>Informações do Cartão</Title>
       <CardPayment
         initialization={initialization}
-        customization={{
-          paymentMethods: {
-            types: {
-              excluded: ['debit_card']
-            }
-          }
-        }}
         onSubmit={onSubmit}
         onReady={onReady}
         onError={onError}

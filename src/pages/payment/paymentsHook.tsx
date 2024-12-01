@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getPaymentUpdate } from "src/api";
 import { usePaymentContext } from "src/context/payment";
 import { GiftToPay } from "src/types";
@@ -15,7 +16,7 @@ export const usePaymentHook = () => {
     }
     return gift;
   });
-  const [isPayed, setIsPayed] = useState<boolean>(false);
+  const [isPaid, setIsPaid] = useState<boolean>(false);
 
   const intervalRef = typeof window !== 'undefined'
     ? useRef<number | null>(null) // Para navegadores
@@ -27,18 +28,18 @@ export const usePaymentHook = () => {
         clearInterval(intervalRef.current);
       }
     };
-  }, [isPayed]);
+  }, [isPaid]);
 
   useEffect(() => {
     if (giftFromStorage) {
       const paymentInfo = JSON.parse(giftFromStorage) as GiftToPay;
-      if (!isPayed && paymentInfo.paymentId!) {
+      if (!isPaid && paymentInfo.paymentId!) {
         intervalRef.current = setInterval(async () => {
           try {
             const paymentStatus = await getPaymentUpdate(paymentInfo.paymentId!);
             const isSuccess = paymentStatus === "approved";
             if (isSuccess) {
-              setIsPayed(true);
+              setIsPaid(true);
               clearInterval(intervalRef.current!);
             }
           }
@@ -48,16 +49,31 @@ export const usePaymentHook = () => {
         }, 5000)
       }
     }
-  }, [giftFromStorage, isPayed])
+  }, [giftFromStorage, isPaid])
 
   function payItem(payer: string) {
     payGift(payer);
-    setIsPayed(true);
+    setIsPaid(true);
   }
 
   return {
     details,
-    isPayed,
+    isPaid,
     payItem
+  }
+}
+
+export const useRedirectHook = () => {
+  const navigate = useNavigate();
+
+  const paymentPath = "/gifts/payment";
+  const invoicePath = "/gifts/payment/invoice";
+  
+  const redirectToPaymentPage = (paymentId: string) => navigate(`${paymentPath}/${paymentId}`);
+  const redirectToPaymentInvoice = (paymentId: string) => navigate(`${invoicePath}/${paymentId}`);
+  
+  return {
+    redirectToPaymentPage,
+    redirectToPaymentInvoice
   }
 }

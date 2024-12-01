@@ -9,16 +9,15 @@ import { UserInfoType } from "src/components/BaseKit";
 import { GiftCard } from "./Components/cards";
 import { useGiftHook } from "./giftsHook";
 import { PaymentOptions } from "./Components/paymentOptions";
+import { useRedirectHook } from "../payment/paymentsHook";
 
 export enum PaymentMethods {
   Pix,
   CreditCard
 }
 
-const paymentPath = "/gifts/payment";
-
 export const GiftsPage: React.FC = memo(() => {
-  const navigate = useNavigate();
+  const { redirectToPaymentPage } = useRedirectHook();
   const { setGiftDetails } = usePaymentContext();
   const { giftsList } = useGiftHook();
 
@@ -35,7 +34,7 @@ export const GiftsPage: React.FC = memo(() => {
 
   const hidePaymentOptions = () => showPaymentOptions && togglePaymentOptions(false);
 
-  const redirectToPayment = async (navigate: NavigateFunction, item: GiftType, paymentMethod: PaymentMethods) => {
+  const redirectToPayment = async (item: GiftType, paymentMethod: PaymentMethods) => {
     setLoading(item.id);
     paymentMethodRef.current = paymentMethod;
     const currentUser = getFromStorage<UserInfoType>('userInfo');
@@ -54,7 +53,7 @@ export const GiftsPage: React.FC = memo(() => {
 
       setGiftDetails(giftToPayWithPix);
       setLoading(null);
-      redirect(giftToPayWithPix.id);
+      redirectToPaymentPage(giftToPayWithPix.id);
     }
     else {
       const giftToPayWithCC: GiftToPay = {
@@ -65,13 +64,9 @@ export const GiftsPage: React.FC = memo(() => {
       };
       setGiftDetails(giftToPayWithCC);
       setLoading(null);
-      redirect(giftToPayWithCC.id);
+      redirectToPaymentPage(giftToPayWithCC.id);
     }
-
-    function redirect(paymentId: string) {
-      navigate(`${paymentPath}/${paymentId}`);
-    }
-  };
+};
 
   const enableLoading = loadingGiftButton === giftSelectedRef.current?.id;
   return (
@@ -87,8 +82,8 @@ export const GiftsPage: React.FC = memo(() => {
       <PaymentOptions
         enablePixLoading={enableLoading && paymentMethodRef.current == PaymentMethods.Pix}
         enableCreditCardLoading={enableLoading && paymentMethodRef.current == PaymentMethods.CreditCard}
-        redirectToPixPayment={() => redirectToPayment(navigate, giftSelectedRef.current!, PaymentMethods.Pix)}
-        redirectToCreditCardPayment={() => redirectToPayment(navigate, giftSelectedRef.current!, PaymentMethods.CreditCard)}
+        redirectToPixPayment={() => redirectToPayment(giftSelectedRef.current!, PaymentMethods.Pix)}
+        redirectToCreditCardPayment={() => redirectToPayment(giftSelectedRef.current!, PaymentMethods.CreditCard)}
         showPaymentOptions={showPaymentOptions}
       />
     </Content>
