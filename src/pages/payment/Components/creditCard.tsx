@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { getFromStorage, removeAtStorage } from 'src/utils/storage';
 import { UserInfoType } from 'src/components/BaseKit';
 import { createCreditCardPaymentAsync } from 'src/api';
-import { usePaymentHook } from '../paymentsHook';
+import { usePaymentHook, useRedirectHook } from '../paymentsHook';
 import { ICardPaymentBrickPayer, ICardPaymentFormData } from '@mercadopago/sdk-react/bricks/cardPayment/type';
 import { usePaymentContext } from 'src/context/payment';
 import { GiftToPay } from 'src/types';
@@ -55,6 +55,7 @@ const InfoText = styled.p`
 const CreditCardForm = () => {
   const [deviceId, setDeviceId] = useState('');
 
+  const { redirectToPaymentInvoice } = useRedirectHook();
   const { details } = usePaymentHook();
   const { setGiftDetails } = usePaymentContext();
 
@@ -100,7 +101,7 @@ const CreditCardForm = () => {
     }; 
 
     setGiftDetails(giftToPayWithCC);
-    
+    redirectToPaymentInvoice(result.id);
   };
 
   const onError = async (error: any) => {
