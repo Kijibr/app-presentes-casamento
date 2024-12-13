@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getPaymentUpdate } from "src/api";
 import { usePaymentContext } from "src/context/payment";
 import { GiftToPay } from "src/types";
+import { PaymentMethods } from "../gifts";
 
 export const usePaymentHook = () => {
   const { gift, payGift } = usePaymentContext();
@@ -33,7 +34,7 @@ export const usePaymentHook = () => {
   useEffect(() => {
     if (giftFromStorage) {
       const paymentInfo = JSON.parse(giftFromStorage) as GiftToPay;
-      if (!isPaid && paymentInfo.paymentId!) {
+      if (!isPaid && paymentInfo.paymentId! && paymentInfo.paymentMethod === PaymentMethods.Pix) {
         intervalRef.current = setInterval(async () => {
           try {
             const paymentStatus = await getPaymentUpdate(paymentInfo.paymentId!);

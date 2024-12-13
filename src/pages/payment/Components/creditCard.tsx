@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { initMercadoPago, CardPayment } from '@mercadopago/sdk-react';
+import { initMercadoPago, CardPayment, StatusScreen } from '@mercadopago/sdk-react';
 
 import { v4 as uuidv4 } from 'uuid';
 import { getFromStorage, removeAtStorage } from 'src/utils/storage';
@@ -11,7 +11,6 @@ import { ICardPaymentBrickPayer, ICardPaymentFormData } from '@mercadopago/sdk-r
 import { usePaymentContext } from 'src/context/payment';
 import { GiftToPay } from 'src/types';
 
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const FormContainer = styled.div`
@@ -22,6 +21,9 @@ const FormContainer = styled.div`
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  
+  display: flex;
+  flex-direction: column;
 `;
 
 const Title = styled.h2`
@@ -55,19 +57,15 @@ const InfoText = styled.p`
   margin-top: 1rem;
 `;
 
-function showToast(message: string) {
-  toast(message, {
-    theme: "light",
-    type: "error"
-  });
-}
+const appUrl = window.location.origin;
 
 const CreditCardForm = () => {
-  const [deviceId, setDeviceId] = useState('');
-
   const { redirectToPaymentInvoice } = useRedirectHook();
   const { details } = usePaymentHook();
   const { setGiftDetails } = usePaymentContext();
+
+  const [deviceId, setDeviceId] = useState('');
+  const [paymentCompleted, setPaymentStatus] = useState<boolean>(true);
 
   useEffect(() => {
     const loadMercadoPago = async () => {
@@ -101,8 +99,8 @@ const CreditCardForm = () => {
   const onSubmit = async (param: ICardPaymentFormData<ICardPaymentBrickPayer>) => {
     const currentUser = getFromStorage<UserInfoType>('userInfo')
     const result = await createCreditCardPaymentAsync(details, currentUser.name, param);
-    if (!result) {
-      showToast("Ocorreu algum erro ao processar o pagamento.");
+    if (!result?.success) {
+      setPaymentStatus(false)
     }
 
     removeAtStorage("itemToPay");
@@ -115,9 +113,8 @@ const CreditCardForm = () => {
     };
     setGiftDetails(giftToPayWithCC);
 
-    if (result)
+    if (result?.success)
       redirectToPaymentInvoice(result.id);
-
   };
 
   const onError = async (error: any) => {
@@ -130,16 +127,34 @@ const CreditCardForm = () => {
 
   return (
     <>
-      <ToastContainer />
       <FormContainer>
         <Title>Informações do Cartão</Title>
-        <CardPayment
-          initialization={initialization}
-          onSubmit={onSubmit}
-          onReady={onReady}
-          onError={onError}
-          locale='pt-BR'
-        />
+        {!paymentCompleted ?
+          <StatusScreen
+            initialization={{
+              paymentId: details.paymentId!,
+            }}
+            locale='pt-BR'
+            customization={{
+              visual: {
+                texts: {
+                  ctaReturnLabel: "Voltar à lista de presentes",
+                },
+              },
+              backUrls: {
+                'return': `${appUrl}/gifts/`,
+                'error': `${appUrl}/gifts/payment/${details.id}`
+              }
+            }}
+          />
+          :
+          <CardPayment
+            initialization={initialization}
+            onSubmit={onSubmit}
+            onReady={onReady}
+            onError={onError}
+            locale='pt-BR'
+          />}
         <InfoText>Device ID: {deviceId}</InfoText>
       </FormContainer>
     </>
