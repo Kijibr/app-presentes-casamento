@@ -14,7 +14,7 @@ export const GiftCard: React.FC<GiftCardProps> = memo(({ giftContent, togglePaym
 
   return (
     <GiftBox key={id}>
-      <img src={image} alt={'image-' + name} />
+      <img src={image} alt={'image-' + name} loading="lazy" />
       <p>
         {name}
       </p>
