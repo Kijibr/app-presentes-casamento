@@ -5,7 +5,7 @@ const url = import.meta.env.VITE_API_URL || process.env.VITE_API_URL || "not fou
 
 export const api = axios.create({
   baseURL: url,
-  timeout: 20000
+  timeout: 10000
 })
 
 export const createPixPaymentAsync = async (gift: GiftType, payer: string) => {
