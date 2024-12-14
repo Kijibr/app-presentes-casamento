@@ -4,5 +4,10 @@
       "source": "/(.*)",
       "destination": "/"
     }
-  ]
+  ],
+  "functions": {
+    "api/**": {
+      "maxDuration": 60
+    }
+  }
 }
