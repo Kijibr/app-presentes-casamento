@@ -2,6 +2,7 @@ import betrothed from "../../assets/user-check.svg";
 import tips from "../../assets/alert-triangle.svg";
 import location from "../../assets/map-pin.svg";
 import gift from "../../assets/gift.svg";
+import menu from "../../assets/menu.svg";
 
 export type Links = {
   path: string,
@@ -34,9 +35,9 @@ export const links: Array<Links> = [
     guestConfirmed: false
   },
   {
-    path: "/betrothed",
-    name: "Confirmação de presença",
-    icon: betrothed,
+    path: "/menu",
+    name: "Cardápio",
+    icon: menu,
     autor: "Maria Rita",
     guestConfirmed: false
   },
