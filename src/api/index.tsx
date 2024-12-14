@@ -4,7 +4,8 @@ import { GiftType } from 'src/types';
 const url = import.meta.env.VITE_API_URL || process.env.VITE_API_URL || "not found";
 
 export const api = axios.create({
-  baseURL: url
+  baseURL: url,
+  timeout: 20000
 })
 
 export const createPixPaymentAsync = async (gift: GiftType, payer: string) => {
