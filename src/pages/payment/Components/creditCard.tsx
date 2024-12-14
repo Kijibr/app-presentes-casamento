@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { initMercadoPago, CardPayment, StatusScreen } from '@mercadopago/sdk-react';
 
@@ -63,7 +63,7 @@ const CreditCardForm = () => {
   const { redirectToPaymentInvoice } = useRedirectHook();
   const { details } = usePaymentHook();
   const { setGiftDetails } = usePaymentContext();
-
+  const paymentId = useRef<string>('');
   const [deviceId, setDeviceId] = useState('');
   const [paymentCompleted, setPaymentStatus] = useState<boolean>(true);
 
@@ -102,7 +102,7 @@ const CreditCardForm = () => {
     if (!result?.success) {
       setPaymentStatus(false)
     }
-
+    
     removeAtStorage("itemToPay");
     const giftToPayWithCC: GiftToPay = {
       id: details.id,
@@ -112,6 +112,7 @@ const CreditCardForm = () => {
       paymentMethod: details.paymentMethod
     };
     setGiftDetails(giftToPayWithCC);
+    paymentId.current = result.id;
 
     if (result?.success)
       redirectToPaymentInvoice(result.id);
@@ -132,12 +133,14 @@ const CreditCardForm = () => {
         {!paymentCompleted ?
           <StatusScreen
             initialization={{
-              paymentId: details.paymentId!,
+              paymentId: paymentId.current,
             }}
             locale='pt-BR'
             customization={{
               visual: {
                 texts: {
+                  ctaCardErrorLabel: "Confira seus dados e tente novamente",
+                  ctaGeneralErrorLabel: "Confira seus dados e tente novamente",
                   ctaReturnLabel: "Voltar à lista de presentes",
                 },
               },

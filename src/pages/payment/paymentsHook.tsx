@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getPaymentUpdate } from "src/api";
 import { usePaymentContext } from "src/context/payment";
@@ -10,13 +10,14 @@ export const usePaymentHook = () => {
 
   const giftFromStorage = sessionStorage.getItem('itemToPay');
 
-  const [details, setDetails] = useState<GiftToPay>(() => {
+  const details: GiftToPay = useMemo(() => {
     if (giftFromStorage) {
       const payload = JSON.parse(giftFromStorage) as GiftToPay;
       return payload;
     }
     return gift;
-  });
+  }, [giftFromStorage]);
+
   const [isPaid, setIsPaid] = useState<boolean>(false);
 
   const intervalRef = typeof window !== 'undefined'
@@ -69,10 +70,10 @@ export const useRedirectHook = () => {
 
   const paymentPath = "/gifts/payment";
   const invoicePath = "/gifts/payment/invoice";
-  
+
   const redirectToPaymentPage = (paymentId: string) => navigate(`${paymentPath}/${paymentId}`);
   const redirectToPaymentInvoice = (paymentId: string) => navigate(`${invoicePath}/${paymentId}`);
-  
+
   return {
     redirectToPaymentPage,
     redirectToPaymentInvoice
