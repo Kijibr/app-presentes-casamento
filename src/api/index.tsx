@@ -1,12 +1,28 @@
 import { ICardPaymentBrickPayer, ICardPaymentFormData } from '@mercadopago/sdk-react/bricks/cardPayment/type';
 import axios from 'axios';
+import { UserInfoType } from 'src/components/BaseKit';
 import { GiftType } from 'src/types';
+import { getFromStorage } from 'src/utils/storage';
 const url = import.meta.env.VITE_API_URL || process.env.VITE_API_URL || "not found";
 
 export const api = axios.create({
   baseURL: url,
   timeout: 10000
-})
+});
+
+api.interceptors.request.use((config) => {
+  const token = getFromStorage('userInfo') as UserInfoType;
+
+  if (token) {
+    config.headers.Authorization = token.id;
+  };
+
+  return config;
+}, (error) => {
+
+  return error;
+});
+
 
 export const createPixPaymentAsync = async (gift: GiftType, payer: string) => {
   try {
