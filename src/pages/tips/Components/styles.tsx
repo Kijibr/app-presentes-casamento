@@ -33,14 +33,14 @@ const Tips = styled.ul<{ index: number }>`
 `;
 
 const Paper = styled.div`
-  margin: 48px;
+  margin: 36px;
   padding: 24px;
   background-color: #9ca771;
 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 30px;
   
-  overflow-x: hidden;
+  overflow-x: hidden; 
   overflow-y: scroll;
 `;
 
@@ -51,6 +51,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.span`
+  flex-shrink: 0;
   font-size: 36px;
   align-self: center;
   display: flex;
