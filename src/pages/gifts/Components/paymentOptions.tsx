@@ -1,6 +1,7 @@
 import { memo } from "react"
-import { PaymentOptionsContainer, SendGiftButton } from "../styles";
+import { PaymentOptionsContainer } from "../styles";
 import { CircularProgress } from "@mui/material";
+import { ActionButton } from "src/components/Cards/styles";
 
 interface PaymentOptionsProps {
   enablePixLoading: boolean;
@@ -20,7 +21,7 @@ export const PaymentOptions: React.FC<PaymentOptionsProps> = memo(({
   return (
     <PaymentOptionsContainer showContent={showPaymentOptions}>
       <caption>Selecione a forma de pagamento</caption>
-      <SendGiftButton
+      <ActionButton
         onClick={redirectToPixPayment}
         className="payment-options"
       >
@@ -30,8 +31,8 @@ export const PaymentOptions: React.FC<PaymentOptionsProps> = memo(({
           :
           <span>PIX</span>
         }
-      </SendGiftButton>
-      <SendGiftButton
+      </ActionButton>
+      <ActionButton
         className="payment-options"
         onClick={redirectToCreditCardPayment}
       >
@@ -41,7 +42,7 @@ export const PaymentOptions: React.FC<PaymentOptionsProps> = memo(({
           :
           <span>Cartão de crédito</span>
         }
-      </SendGiftButton>
+      </ActionButton>
     </PaymentOptionsContainer>
   )
 });

@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import Modal from "../Modal";
 import { useModalHook } from "src/store/modalReducer";
 import Divider from "./Divider";
-import { InputComponent } from "./Input";
+import { Input } from "./Input";
 import { useForm } from "react-hook-form";
 import { CheckboxComponent } from "./Checkbox";
 import { confirmInviteAsync, getUserGuestAsync } from "src/api/guests";
@@ -211,7 +211,8 @@ const ConfirmationUser = ({ name }: UserInfoType) => {
     }
   }
 
-  const userIsAuthenticated = !!getFromStorage<boolean>("userIdentified");
+  const userIsAuthenticated = !!getFromStorage<boolean>("userIdentified"); 
+  // || !!(getFromStorage('userInfo') as any)?.confirmed;
   const showModal: boolean = !userIsAuthenticated || modalOpen.isOpen;
 
   const confirmedValue = watch('password');
@@ -226,7 +227,7 @@ const ConfirmationUser = ({ name }: UserInfoType) => {
         <ModalTitle>Seja bem vindo(a) {name}!</ModalTitle>
         <Divider />
         <FormArea>
-          <InputComponent
+          <Input
             label="Informe sua senha para validar a sua confirmação."
             name="password"
             error={errors?.password?.message}

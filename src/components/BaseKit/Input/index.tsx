@@ -1,79 +1,81 @@
-import React, { } from 'react';
+import React from 'react';
 import { UseFormRegister } from 'react-hook-form';
-import styled from "styled-components"
+import styled from 'styled-components';
 
-const Container = styled.div`
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
+  label: string;
+  error?: string;
+  as?: 'input' | 'textarea';
+  name?: string;
+  type?: string;
+  value?: string;
+  handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  register?: UseFormRegister<any>;
+}
+
+const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  
-  gap: 24px;
+  gap: 8px;
   width: 100%;
 `;
 
-const Label = styled.span`
-  margin-bottom: -24px;
-  
-  font-size: 0.875rem;
-  font-weight: 300;
-  
-  align-self: flex-start;
+const Label = styled.label`
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.text};
+  font-weight: 500;
 `;
 
-const Input = styled.input`
-  padding: 8px 6px;
+const StyledInput = styled.input<{ hasError?: boolean }>`
+  padding: 12px;
+  border: 1px solid ${({ theme, hasError }) =>
+    hasError ? theme.colors.error : theme.colors.border};
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
   
-  font-size: 0.775rem;
-  border: 1px solid ${props => props.theme.gray};
-  
-  border-radius: 4px;
-
-  &:focus{
-    border: 1px solid ${props => props.theme.dark_green};
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.primary};
   }
 `;
 
-const ErrorMessage = styled.div`
-  display: flex;
-  align-items: center;
-  color: ${(props) => props.theme.dark_green};
-
-  margin-top: -16px;
+const StyledTextArea = styled.textarea<{ hasError?: boolean }>`
+  padding: 12px;
+  border: 1px solid ${({ theme, hasError }) =>
+    hasError ? theme.colors.error : theme.colors.border};
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+  
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.primary};
+  }
 `;
 
-type InputProps = {
-  name: string;
-  label: string;
-  type?: string;
-  error?: string;
-  value?: string;
-  handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  register: UseFormRegister<any>;
-}
+const ErrorMessage = styled.span`
+  color: ${({ theme }) => theme.colors.error};
+  font-size: 12px;
+`;
 
-export const InputComponent: React.FC<InputProps> = ({
-  name,
+export const Input: React.FC<InputProps> = ({
   label,
-  type = "text",
   error,
-  value,
-  register,
-  handleChange
+  as = 'input',
+  ...props
 }) => {
   return (
-    <Container>
+    <InputContainer>
       <Label>{label}</Label>
-      <Input
-        {...register(name, {
-          onChange: handleChange,
-        })}
-        type={type}
-        value={value}
-      />
-      {error && (
-        <ErrorMessage>
-          {error}
-        </ErrorMessage>
+      {as === 'textarea' ? (
+        <StyledTextArea hasError={!!error} {...props as React.TextareaHTMLAttributes<HTMLTextAreaElement>} />
+      ) : (
+        <StyledInput hasError={!!error} {...props as React.InputHTMLAttributes<HTMLInputElement>} />
       )}
-    </Container>
-  )
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+    </InputContainer>
+  );
 };

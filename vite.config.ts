@@ -25,6 +25,12 @@ export default defineConfig({
       },
     })
   ],
+  optimizeDeps: {
+    include: ['leaflet', 'react-leaflet']
+  },
+  define: {
+    global: 'globalThis',
+  },
   assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.svg'],
   resolve: {
     alias: {

@@ -3,6 +3,7 @@ import tips from "../../assets/alert-triangle.svg";
 import location from "../../assets/map-pin.svg";
 import gift from "../../assets/gift.svg";
 import menu from "../../assets/menu.svg";
+import suppliers from "../../assets/supplier.svg";
 
 export type Links = {
   path: string,
@@ -38,6 +39,13 @@ export const links: Array<Links> = [
     path: "/menu",
     name: "Cardápio",
     icon: menu,
+    autor: "Maria Rita",
+    guestConfirmed: false
+  },
+  {
+    path: "/suppliers",
+    name: "Fornecedores",
+    icon: suppliers,
     autor: "Maria Rita",
     guestConfirmed: false
   },

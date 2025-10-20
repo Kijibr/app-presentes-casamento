@@ -1,5 +1,5 @@
 import { memo } from "react"
-import { GiftBox, SendGiftButton } from "../styles";
+import { CardComponent } from "src/components/Cards";
 import { GiftType } from "src/types";
 import { formatCurrencyValue } from "src/utils/formatCurrency";
 
@@ -13,17 +13,23 @@ export const GiftCard: React.FC<GiftCardProps> = memo(({ giftContent, togglePaym
   const giftValueFormatted = formatCurrencyValue(parseFloat(giftValue));
 
   return (
-    <GiftBox key={id}>
-      <img src={image} alt={'image-' + name} loading="lazy" />
-      <p>
-        {name}
-      </p>
-      <p className="giftValue">
-        {giftValueFormatted}
-      </p>
-      <SendGiftButton onClick={() => togglePaymentOptions()}>
-        Presentear
-      </SendGiftButton>
-    </GiftBox>
+    <>
+      <CardComponent
+        content={{
+          id,
+          image: image!,
+          name
+        }}
+        buttonText="Presentear"
+        buttonAction={togglePaymentOptions}
+        children={(
+          <>
+            <p className="giftValue">
+              {giftValueFormatted}
+            </p>
+          </>
+        )}
+      />
+    </>
   );
 })

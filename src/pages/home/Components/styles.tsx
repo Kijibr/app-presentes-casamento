@@ -90,7 +90,7 @@ const Options = styled.div`
 
   gap: 8px;
 
-  min-width: 360px;
+  min-width: 320px;
   height: 160px;
 
   border: 2px solid ${props => props.theme.light_green};

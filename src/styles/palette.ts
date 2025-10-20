@@ -17,6 +17,19 @@ const Themes = {
   gray: "#909090",
 
   input_focus: "#465332",
+
+  // Adicionando referências usadas nos styled-components
+  colors: {
+    primary: "#4F5D75", // azul escuro suave
+    primaryDark: "#2D3142", // azul mais escuro
+    primaryLight: "#BFC0C0", // cinza claro
+    secondary: "#EF8354", // laranja suave
+    white: "#FFF",
+    border: "#E0E0E0",
+    error: "#E57373",
+    text: "#22223B",
+    background: "#F7F7FF",
+  },
 } as const;
 
 export default Themes;

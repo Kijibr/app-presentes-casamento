@@ -12,11 +12,9 @@ export const api = axios.create({
 
 api.interceptors.request.use((config) => {
   const token = getFromStorage('userInfo') as UserInfoType;
-
   if (token) {
     config.headers.Authorization = token.id;
   };
-
   return config;
 }, (error) => {
 
