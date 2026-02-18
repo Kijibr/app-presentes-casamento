@@ -15,6 +15,7 @@ import isPropValid from '@emotion/is-prop-valid'
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Invoice } from "./pages/payment/Components/invoice";
 import { SuppliersPage } from "./pages/suppliers";
+import Clarity from '@microsoft/clarity';
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,8 @@ const router = createBrowserRouter([
     element: <Navigate to={"home"} replace />
   }
 ]);
+
+Clarity.init("vj27uff4pf");
 
 const queryClient = new QueryClient()
 
